@@ -23,6 +23,7 @@ import dev.azn9.plugins.discord.settings.settings
 import dev.azn9.plugins.discord.settings.values.ProjectShow
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.actionSystem.UpdateInBackground
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.DumbAwareToggleAction
 import com.intellij.openapi.project.Project
@@ -33,7 +34,7 @@ abstract class AbstractSelectionAction<T>(
     values: Array<T>,
     val currentValue: (Project) -> SelectionValue<T>
 ) :
-    DefaultActionGroup(), DumbAware where T : Enum<T>, T : UiValueType {
+    DefaultActionGroup(), UpdateInBackground, DumbAware where T : Enum<T>, T : UiValueType {
 
     constructor(values: Array<T>, value: SelectionValue<T>) : this(values, { value })
 

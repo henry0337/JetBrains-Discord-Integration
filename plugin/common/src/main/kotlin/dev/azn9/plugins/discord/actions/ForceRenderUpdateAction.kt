@@ -20,9 +20,10 @@ package dev.azn9.plugins.discord.actions
 import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.render.renderService
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.UpdateInBackground
 import com.intellij.openapi.project.DumbAwareAction
 
-class ForceRenderUpdateAction : DumbAwareAction("Force render update") {
+class ForceRenderUpdateAction : DumbAwareAction("Force Render Update"), UpdateInBackground {
     override fun actionPerformed(e: AnActionEvent) {
         DiscordPlugin.LOG.info("Forcing manual render")
 

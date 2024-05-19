@@ -21,9 +21,10 @@ import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.render.renderService
 import dev.azn9.plugins.discord.rpc.rpcService
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.UpdateInBackground
 import com.intellij.openapi.project.DumbAwareAction
 
-class ForceReconnectAction : DumbAwareAction("Force reconnect") {
+class ForceReconnectAction : DumbAwareAction("Force Reconnect"), UpdateInBackground {
     override fun actionPerformed(e: AnActionEvent) {
         DiscordPlugin.LOG.info("Forcing manual reconnect")
 

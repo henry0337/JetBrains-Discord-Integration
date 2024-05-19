@@ -20,13 +20,14 @@ package dev.azn9.plugins.discord.actions
 import dev.azn9.plugins.discord.settings.options.types.BooleanValue
 import dev.azn9.plugins.discord.settings.settings
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.UpdateInBackground
 import com.intellij.openapi.project.DumbAwareToggleAction
 import com.intellij.openapi.project.Project
 
 class ApplicationShowAction : AbstractToggleAction(settings.show)
 
 abstract class AbstractToggleAction(private val currentValue: (Project) -> BooleanValue, text: String, description: String?) :
-    DumbAwareToggleAction(text, description, null) {
+    DumbAwareToggleAction(text, description, null), UpdateInBackground {
     constructor(currentValue: BooleanValue, text: String, description: String?) : this({ currentValue }, text, description)
     constructor(currentValue: BooleanValue) : this(currentValue, currentValue.text, currentValue.description)
 
