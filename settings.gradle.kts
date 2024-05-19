@@ -25,6 +25,7 @@ include("plugin:v212")
 include("plugin:v223")
 include("plugin:v231")
 include("plugin:v232")
+include("plugin:v242")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
