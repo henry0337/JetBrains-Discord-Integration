@@ -17,8 +17,8 @@
 
 package dev.azn9.plugins.discord.actions
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.UpdateInBackground
 import com.intellij.openapi.project.DumbAwareToggleAction
 import com.intellij.openapi.project.Project
 import dev.azn9.plugins.discord.settings.options.types.BooleanValue
@@ -27,9 +27,14 @@ import dev.azn9.plugins.discord.settings.settings
 class ApplicationShowAction : AbstractToggleAction(settings.show)
 
 abstract class AbstractToggleAction(private val currentValue: (Project) -> BooleanValue, text: String, description: String?) :
-    DumbAwareToggleAction(text, description, null), UpdateInBackground {
+    DumbAwareToggleAction(text, description, null) {
+
     constructor(currentValue: BooleanValue, text: String, description: String?) : this({ currentValue }, text, description)
     constructor(currentValue: BooleanValue) : this(currentValue, currentValue.text, currentValue.description)
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
+    }
 
     override fun isSelected(e: AnActionEvent) = e.project?.let { currentValue(it).getStoredValue() } == true
 
