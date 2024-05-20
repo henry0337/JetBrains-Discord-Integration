@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ private const val content =
 object ProjectShowNotification {
     suspend fun show(project: Project) = suspendCoroutine<ProjectShow> { continuation ->
         NotificationGroupManager.getInstance()
-            .getNotificationGroup("com.almightyalpaca.jetbrains.plugins.discord.notification.project.show")
+            .getNotificationGroup("dev.azn9.plugins.discord.notification.project.show")
             .createNotification(title, content, NotificationType.INFORMATION)
             .apply {
                 for (value in project.settings.show.selectableValues) {

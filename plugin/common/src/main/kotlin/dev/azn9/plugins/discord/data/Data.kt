@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 
 package dev.azn9.plugins.discord.data
 
-import com.almightyalpaca.jetbrains.plugins.discord.icons.matcher.Matcher
-import com.almightyalpaca.jetbrains.plugins.discord.icons.utils.toSet
+import dev.azn9.plugins.discord.icons.matcher.Matcher
+import dev.azn9.plugins.discord.icons.utils.toSet
 import dev.azn9.plugins.discord.settings.ApplicationSettings
 import dev.azn9.plugins.discord.settings.ProjectSettings
 import dev.azn9.plugins.discord.utils.find
@@ -38,6 +38,7 @@ sealed class Data {
     }
 
     open class Application(
+        val applicationId: Long,
         val applicationName: String,
         val applicationVersion: String,
         val applicationTimeOpened: Long,
@@ -50,6 +51,7 @@ sealed class Data {
     }
 
     open class Project(
+        applicationId: Long,
         applicationName: String,
         applicationVersion: String,
         applicationTimeOpened: Long,
@@ -62,13 +64,14 @@ sealed class Data {
         val projectSettings: ProjectSettings,
         val vcsBranch: String?,
         val debuggerActive: Boolean
-    ) : Application(applicationName, applicationVersion, applicationTimeOpened, applicationTimeActive, applicationSettings) {
+    ) : Application(applicationId, applicationName, applicationVersion, applicationTimeOpened, applicationTimeActive, applicationSettings) {
         override fun toString(): String {
             return "Data.Project(applicationName='$applicationName', applicationVersion='$applicationVersion', applicationTimeOpened=$applicationTimeOpened, applicationTimeActive=$applicationTimeActive, projectName='$projectName', projectDescription='$projectDescription', projectTimeOpened=$projectTimeOpened, projectTimeActive=$projectTimeActive, vcsBranch=$vcsBranch)"
         }
     }
 
     open class File(
+        applicationId: Long,
         applicationName: String,
         applicationVersion: String,
         applicationTimeOpened: Long,
@@ -94,6 +97,7 @@ sealed class Data {
         val pathInModule: String?,
         val fileSize: Int
     ) : Project(
+        applicationId,
         applicationName,
         applicationVersion,
         applicationTimeOpened,

@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 package dev.azn9.plugins.discord.rpc
 
-import com.almightyalpaca.jetbrains.plugins.discord.icons.source.Asset
+import dev.azn9.plugins.discord.icons.source.Asset
 import dev.azn9.plugins.discord.utils.*
 import java.awt.image.BufferedImage
 import java.net.URL
@@ -100,6 +100,7 @@ class RichPresence(
 
             if (asset != other.asset) return false
             if (key != other.key) return false
+            if (text != other.text) return false
 
             return true
         }
@@ -107,6 +108,7 @@ class RichPresence(
         override fun hashCode(): Int {
             var result = asset?.hashCode() ?: 0
             result = 31 * result + (key?.hashCode() ?: 0)
+            result = 31 * result + (text?.hashCode() ?: 0)
             return result
         }
     }

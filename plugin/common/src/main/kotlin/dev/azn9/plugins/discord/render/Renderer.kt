@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ abstract class Renderer(protected val context: RenderContext) {
             DiscordPlugin.LOG.debug("RenderContext.icons=null")
         }
 
-        return RichPresence(context.icons?.applicationId) presence@{
+        return RichPresence(context.applicationData?.applicationId) presence@{
             val customTemplateContext by lazy { context.asCustomTemplateContext() }
 
             this@presence.details = when (val line = details?.getValue()?.get(context)) {

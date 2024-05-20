@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 package dev.azn9.plugins.discord.settings.options.types
 
-import com.almightyalpaca.jetbrains.plugins.discord.icons.source.Source
+import dev.azn9.plugins.discord.icons.source.Source
 import dev.azn9.plugins.discord.settings.gui.themes.ThemeDialog
 import dev.azn9.plugins.discord.settings.options.OptionCreator
 import dev.azn9.plugins.discord.settings.options.OptionHolder
@@ -111,18 +111,16 @@ class ThemeOption(text: String, val description: String?, val showDefault: Boole
     override var isComponentEnabled by throwing<Boolean> { UnsupportedOperationException() } // TODO
 
     init {
-        source.getThemesAsync().asCompletableFuture().thenAcceptAsync { themes ->
-            var value = this.currentValue
-            if (value == null || value !in themes.keys) {
-                value = themes.default.id
-                this.currentValue = value
-            }
-
-            this.componentValue = value
-
-            this.componentImpl.isEnabled = true
-            this.componentImpl.text = themes[value]!!.name
+        var value = this.currentValue
+        if (value == null || value !in source.themeMap.keys) {
+            value = source.themeMap.default.id
+            this.currentValue = value
         }
+
+        this.componentValue = value
+
+        this.componentImpl.isEnabled = true
+        this.componentImpl.text = source.themeMap[value]!!.name
     }
 
     private val value = ThemeValue(this)

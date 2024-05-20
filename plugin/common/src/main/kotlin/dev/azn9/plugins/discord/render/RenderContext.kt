@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 
 package dev.azn9.plugins.discord.render
 
-import com.almightyalpaca.jetbrains.plugins.discord.icons.source.IconSet
-import com.almightyalpaca.jetbrains.plugins.discord.icons.source.Source
+import dev.azn9.plugins.discord.icons.source.IconSet
+import dev.azn9.plugins.discord.icons.source.Source
 import dev.azn9.plugins.discord.data.Data
 import dev.azn9.plugins.discord.settings.options.types.SimpleValue
 import dev.azn9.plugins.discord.settings.settings

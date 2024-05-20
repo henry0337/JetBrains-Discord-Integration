@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2020 Aljoscha Grebe
- * Copyright 2023 Axel JOLY (Azn9) <contact@azn9.dev>
+ * Copyright 2023-2024 Axel JOLY (Azn9) <contact@azn9.dev>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package dev.azn9.plugins.discord.utils
 
 import com.intellij.openapi.Disposable
+import dev.azn9.plugins.discord.DiscordPlugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,6 +31,10 @@ interface DisposableCoroutineScope : CoroutineScope, Disposable {
         get() = Dispatchers.Default + parentJob
 
     override fun dispose() {
-        parentJob.cancel()
+        try {
+            parentJob.cancel()
+        } catch (e: Exception) {
+            DiscordPlugin.LOG.warnLazy(e) { "Failed to cancel parent job" }
+        }
     }
 }
