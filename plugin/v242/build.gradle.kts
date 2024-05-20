@@ -35,7 +35,8 @@ version = rootProject.version as String + ".242"
 val github = "https://github.com/Azn9/JetBrains-Discord-Integration"
 
 dependencies {
-    implementation(project(path = ":plugin:common", configuration = "minimizedJar"))
+    implementation(project(path = ":icons", configuration = "minimizedJar"))
+    implementation(project(":plugin:common"))
 
     implementation(libs.discord.ipc)
 
@@ -56,6 +57,8 @@ dependencies {
         pluginVerifier()
         zipSigner()
         instrumentationTools()
+
+        localPlugin(project(":plugin:common"))
     }
 }
 
@@ -311,4 +314,9 @@ fun readInfoFile(file: File): String {
 
         // Replace newlines
         .replace("\n", "<br>")
+}
+
+// Compatibility with the old build system
+tasks.create("runPluginVerifier") {
+    dependsOn("verifyPlugin")
 }

@@ -34,7 +34,7 @@ intellij-v212 = "1.16.1"
 intellij-v223 = "1.16.1"
 intellij-v231 = "1.16.1"
 intellij-v232 = "1.16.1"
-intellij-v242 = "2.0.0-beta2"
+intellij-v242 = "2.0.0-SNAPSHOT"
 
 kotlin-latest = "1.9.22"
 kotlin-common = "1.7.0"

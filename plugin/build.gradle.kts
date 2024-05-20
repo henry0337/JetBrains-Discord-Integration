@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-val versions = listOf("v212", "v223", "v231", "v232")
+val versions = listOf("v212", "v223", "v231", "v232", "v242")
 
 tasks {
     create("buildPlugin") {
