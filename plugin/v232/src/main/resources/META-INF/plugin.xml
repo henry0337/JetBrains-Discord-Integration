@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin url="https://github.com/Azn9/JetBrains-Discord-Integration" require-restart="true">
+<idea-plugin url="https://github.com/Azn9/JetBrains-Discord-Integration">
     <id>dev.azn9.plugins.discord</id>
     <name>Discord Integration V2</name>
     <vendor email="contact@azn9.dev" url="https://github.com/Azn9/JetBrains-Discord-Integration">Azn9</vendor>
