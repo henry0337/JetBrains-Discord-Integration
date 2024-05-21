@@ -72,3 +72,5 @@ plugin/src/generated/
 
 # Signing certificates
 plugin/certs
+
+.intellijPlatform

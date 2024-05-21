@@ -24,13 +24,13 @@ import org.jsoup.Jsoup
 fun properties(key: String) = providers.gradleProperty(key)
 
 plugins {
-    alias(libs.plugins.kotlin.v232)
-    alias(libs.plugins.intellij.v232)
+    alias(libs.plugins.kotlin.v242)
+    alias(libs.plugins.intellij.v242)
 
     antlr
 }
 
-version = rootProject.version as String + ".232"
+version = rootProject.version as String + ".242"
 
 val github = "https://github.com/Azn9/JetBrains-Discord-Integration"
 
@@ -47,6 +47,18 @@ dependencies {
 
     antlr(libs.antlr)
     implementation(libs.antlr.runtime)
+
+    intellijPlatform {
+        create("IC", libs.versions.ide.v242)
+
+        bundledPlugin("Git4Idea")
+
+        pluginVerifier()
+        zipSigner()
+        instrumentationTools()
+
+        localPlugin(project(":plugin:common"))
+    }
 }
 
 repositories {
@@ -56,6 +68,10 @@ repositories {
 
     mavenLocal()
     maven("https://nexus.azn9.dev/repository/public")
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 val generatedSourceDir = project.file("src/generated")
@@ -71,22 +87,28 @@ sourceSets {
 
 val isCI by lazy { System.getenv("CI") != null }
 
-intellij {
-    pluginName.set(properties("pluginName").get())
+intellijPlatform {
+    pluginConfiguration {
+        name = properties("pluginName").get()
 
-    version(libs.versions.ide.v232)
-    downloadSources(!isCI)
-    sandboxDir("${project.rootDir.absolutePath}/.sandbox.v232")
+        ideaVersion {
+            sinceBuild = "242.0"
+            untilBuild = provider { null }
+        }
+    }
 
-    updateSinceUntilBuild(false)
+    verifyPlugin {
+        ides {
+            recommended()
+        }
+    }
 
-    plugins("vcs-git")
+    sandboxContainer.set(File("${project.rootDir.absolutePath}/.sandbox.v242"))
 }
 
 kotlin {
     jvmToolchain {
-        //vendor = JvmVendorSpec.JETBRAINS
-        languageVersion.set(JavaLanguageVersion.of("17"))
+        languageVersion.set(JavaLanguageVersion.of("21"))
     }
 }
 
@@ -155,11 +177,6 @@ tasks {
     patchPluginXml {
         changeNotes(readInfoFile(project.file("../changelog.md")))
         pluginDescription(readInfoFile(project.file("../description.md")))
-    }
-
-    listProductsReleases {
-        sinceBuild("232.0")
-        untilBuild("241.*")
     }
 
     runIde {
@@ -254,7 +271,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "21"
             freeCompilerArgs += "-Xjvm-default=all"
         }
     }
@@ -296,4 +313,9 @@ fun readInfoFile(file: File): String {
 
         // Replace newlines
         .replace("\n", "<br>")
+}
+
+// Compatibility with the old build system
+tasks.create("runPluginVerifier") {
+    dependsOn("verifyPlugin")
 }

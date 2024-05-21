@@ -17,19 +17,20 @@
 
 package dev.azn9.plugins.discord.actions
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.DumbAwareAction
 import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.render.renderService
-import dev.azn9.plugins.discord.rpc.rpcService
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.UpdateInBackground
-import com.intellij.openapi.project.DumbAwareAction
-import kotlinx.coroutines.runBlocking
 
-class ForceReconnectAction : DumbAwareAction("Force Reconnect"), UpdateInBackground {
+class ForceRenderUpdateAction : DumbAwareAction("Force Render Update") {
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
-        DiscordPlugin.LOG.info("Forcing manual reconnect")
-
-        runBlocking { rpcService.update(null) }
+        DiscordPlugin.LOG.info("Forcing manual render")
 
         renderService.render(true)
     }

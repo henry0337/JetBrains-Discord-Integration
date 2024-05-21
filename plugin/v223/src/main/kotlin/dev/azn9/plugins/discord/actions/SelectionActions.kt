@@ -17,24 +17,23 @@
 
 package dev.azn9.plugins.discord.actions
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.DumbAwareToggleAction
+import com.intellij.openapi.project.Project
 import dev.azn9.plugins.discord.settings.options.types.SelectionValue
 import dev.azn9.plugins.discord.settings.options.types.UiValueType
 import dev.azn9.plugins.discord.settings.settings
 import dev.azn9.plugins.discord.settings.values.ProjectShow
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DefaultActionGroup
-import com.intellij.openapi.actionSystem.UpdateInBackground
-import com.intellij.openapi.project.DumbAware
-import com.intellij.openapi.project.DumbAwareToggleAction
-import com.intellij.openapi.project.Project
 
 class ProjectShowAction : AbstractSelectionAction<ProjectShow>(enumValues(), { it.settings.show })
 
 abstract class AbstractSelectionAction<T>(
     values: Array<T>,
     val currentValue: (Project) -> SelectionValue<T>
-) :
-    DefaultActionGroup(), UpdateInBackground, DumbAware where T : Enum<T>, T : UiValueType {
+) : DefaultActionGroup(), DumbAware where T : Enum<T>, T : UiValueType {
 
     constructor(values: Array<T>, value: SelectionValue<T>) : this(values, { value })
 
@@ -44,6 +43,10 @@ abstract class AbstractSelectionAction<T>(
         for (value in values) {
             add(ToggleAction(value, currentValue))
         }
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 
     override fun update(e: AnActionEvent) {
@@ -62,6 +65,11 @@ abstract class AbstractSelectionAction<T>(
 
     class ToggleAction<T>(val value: T, val currentValue: (Project) -> SelectionValue<T>) :
         DumbAwareToggleAction(value.text, value.description, null) where T : Enum<T>, T : UiValueType {
+
+        override fun getActionUpdateThread(): ActionUpdateThread {
+            return ActionUpdateThread.BGT
+        }
+
         override fun isSelected(e: AnActionEvent) = value == e.project?.let { currentValue(it).getStoredValue() }
 
         override fun setSelected(e: AnActionEvent, state: Boolean) {

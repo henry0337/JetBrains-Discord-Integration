@@ -15,27 +15,18 @@
  * limitations under the License.
  */
 
-val versions = listOf("v212", "v223", "v231", "v232", "v242")
+package dev.azn9.plugins.discord.actions
 
-tasks {
-    create("buildPlugin") {
-        versions.forEach { version ->
-            val buildPlugin = project.tasks.getByPath("$version:buildPlugin") as Zip
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.UpdateInBackground
+import com.intellij.openapi.project.DumbAwareAction
+import dev.azn9.plugins.discord.DiscordPlugin
+import dev.azn9.plugins.discord.render.renderService
 
-            dependsOn(buildPlugin)
+class ForceRenderUpdateAction : DumbAwareAction("Force Render Update"), UpdateInBackground {
+    override fun actionPerformed(e: AnActionEvent) {
+        DiscordPlugin.LOG.info("Forcing manual render")
 
-            doLast {
-                copy {
-                    from(buildPlugin.outputs)
-                    into("..")
-                }
-            }
-        }
-    }
-
-    create("verifyPluginCompatibility") {
-        versions.forEach { version ->
-            dependsOn("$version:runPluginVerifier")
-        }
+        renderService.render(true)
     }
 }

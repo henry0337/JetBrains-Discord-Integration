@@ -27,12 +27,14 @@ ide-v212 = "2021.2" # Uses Java 11
 ide-v223 = "2022.3.3" # Uses Java 17
 ide-v231 = "2023.1.5" # New postLoad system
 ide-v232 = "2023.2.4" # New idle listener system
+ide-v242 = "242.10180.25" # Uses Java 21 and changes to git // TODO - Replace this eap version with the release once it's released
 
 intellij-common = "1.16.1"
 intellij-v212 = "1.16.1"
 intellij-v223 = "1.16.1"
 intellij-v231 = "1.16.1"
 intellij-v232 = "1.16.1"
+intellij-v242 = "2.0.0-SNAPSHOT"
 
 kotlin-latest = "1.9.22"
 kotlin-common = "1.7.0"
@@ -40,6 +42,7 @@ kotlin-v212 = "1.7.0"
 kotlin-v223 = "1.9.22"
 kotlin-v231 = "1.9.22"
 kotlin-v232 = "1.9.22"
+kotlin-v242 = "1.9.24"
 
 [libraries]
 antlr = { group = "org.antlr", name = "antlr4", version.ref = "antlr" }
@@ -93,9 +96,11 @@ kotlin-v212 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-v212" }
 kotlin-v223 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-v223" }
 kotlin-v231 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-v231" }
 kotlin-v232 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-v232" }
+kotlin-v242 = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-v242" }
 
 intellij-common = { id = "org.jetbrains.intellij", version.ref = "intellij-common" }
 intellij-v212 = { id = "org.jetbrains.intellij", version.ref = "intellij-v212" }
 intellij-v223 = { id = "org.jetbrains.intellij", version.ref = "intellij-v223" }
 intellij-v231 = { id = "org.jetbrains.intellij", version.ref = "intellij-v231" }
 intellij-v232 = { id = "org.jetbrains.intellij", version.ref = "intellij-v232" }
+intellij-v242 = { id = "org.jetbrains.intellij.platform", version.ref = "intellij-v242" }
