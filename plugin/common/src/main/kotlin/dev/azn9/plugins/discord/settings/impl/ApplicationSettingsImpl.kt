@@ -36,7 +36,7 @@ class ApplicationSettingsImpl : ApplicationSettings, PersistentStateOptionHolder
         "Time required before considered idle",
         "Time without any activity before the plugin marks the session as idle. Changes mighty require a restart to take effect",
         5,
-        1..24 * 60,
+        1 until 24 * 60,
         format = "# " + "Minutes"
     )
     override val timeoutResetTimeEnabled by timeoutOptionPair.second.check("Reset open time when returning", "Reset open time for the application as well as open projects and files", true)
