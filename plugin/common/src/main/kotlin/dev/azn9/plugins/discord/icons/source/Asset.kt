@@ -22,8 +22,8 @@ import java.awt.image.BufferedImage
 const val ASSET_URL = "https://raw.githubusercontent.com/Azn9/JetBrains-Discord-Integration/develop/icons/data"
 
 interface Asset {
-    val id: String
-    val theme: Theme
+    val id: String?
+    val theme: Theme?
 
     fun getImage(size: Int?): BufferedImage?
     fun getUrl(): String

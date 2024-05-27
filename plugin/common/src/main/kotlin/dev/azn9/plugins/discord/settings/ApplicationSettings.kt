@@ -22,6 +22,7 @@ import dev.azn9.plugins.discord.settings.options.types.*
 import dev.azn9.plugins.discord.settings.values.*
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.service
+import dev.azn9.plugins.discord.render.templates.CustomTemplate
 import org.jdom.Element
 
 val settings: ApplicationSettings
@@ -68,9 +69,11 @@ interface ApplicationSettings : PersistentStateComponent<Element>, OptionHolder 
     val fileState: TextValue
     val fileStateCustom: TemplateValue
     val fileIconLarge: IconValue
+    val fileIconLargeCustom: SimpleValue<CustomTemplate>
     val fileIconLargeText: TextValue
     val fileIconLargeTextCustom: TemplateValue
     val fileIconSmall: IconValue
+    val fileIconSmallCustom: SimpleValue<CustomTemplate>
     val fileIconSmallText: TextValue
     val fileIconSmallTextCustom: TemplateValue
     val fileTime: TimeValue

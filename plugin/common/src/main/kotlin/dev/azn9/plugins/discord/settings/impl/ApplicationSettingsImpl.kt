@@ -117,15 +117,19 @@ class ApplicationSettingsImpl : ApplicationSettings, PersistentStateOptionHolder
     override val fileStateCustom by fileStateToggle.option.template("Custom", "")
 
     private val fileIconLargeToggle by fileTab.toggleable<PresenceIcon>()
-    override val fileIconLarge by fileIconLargeToggle.disableOn(PresenceIcon.NONE).selection("Large icon", PresenceIcon.Large.File)
-    private val fileIconLargeTextToggle by fileIconLargeToggle.option.toggleable<PresenceText>()
-    override val fileIconLargeText by fileIconLargeTextToggle.enableOn(PresenceText.CUSTOM).selection("Text", PresenceText.FileIconLarge)
+    override val fileIconLarge by fileIconLargeToggle.enableOn(PresenceIcon.CUSTOM).selection("Large icon", PresenceIcon.Large.File)
+    override val fileIconLargeCustom by fileIconLargeToggle.option.template("Custom", "")
+
+    private val fileIconLargeTextToggle by fileTab.toggleable<PresenceText>()
+    override val fileIconLargeText by fileIconLargeTextToggle.enableOn(PresenceText.CUSTOM).selection("Large icon text", PresenceText.FileIconLarge)
     override val fileIconLargeTextCustom by fileIconLargeTextToggle.option.template("Custom", "")
 
     private val fileIconSmallToggle by fileTab.toggleable<PresenceIcon>()
-    override val fileIconSmall by fileIconSmallToggle.disableOn(PresenceIcon.NONE).selection("Small icon", PresenceIcon.Small.File)
-    private val fileIconSmallTextToggle by fileIconSmallToggle.option.toggleable<PresenceText>()
-    override val fileIconSmallText by fileIconSmallTextToggle.enableOn(PresenceText.CUSTOM).selection("Text", PresenceText.FileIconSmall)
+    override val fileIconSmall by fileIconSmallToggle.enableOn(PresenceIcon.CUSTOM).selection("Small icon", PresenceIcon.Small.File)
+    override val fileIconSmallCustom by fileIconSmallToggle.option.template("Custom", "")
+
+    private val fileIconSmallTextToggle by fileTab.toggleable<PresenceText>()
+    override val fileIconSmallText by fileIconSmallTextToggle.enableOn(PresenceText.CUSTOM).selection("Small icon text", PresenceText.FileIconSmall)
     override val fileIconSmallTextCustom by fileIconSmallTextToggle.option.template("Custom", "")
 
     override val fileTime by fileTab.selection("Show elapsed time", PresenceTime.File)
