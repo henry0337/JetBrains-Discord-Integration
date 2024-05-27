@@ -57,8 +57,6 @@ dependencies {
 
     antlr(libs.antlr)
     implementation(libs.antlr.runtime)
-
-    implementation(libs.github.api)
 }
 
 val generatedSourceDir = project.file("src/generated")

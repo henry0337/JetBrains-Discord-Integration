@@ -58,8 +58,6 @@ class RpcService : DisposableCoroutineScope {
     }
 
     fun update(presence: RichPresence?, forceUpdate: Boolean = false, forceReconnect: Boolean = false) = launch {
-        throw IllegalStateException("This is a test") // TODO: remove
-
         mutex.withLock {
             launch(exceptionHandler) action@{
                 DiscordPlugin.LOG.debug("Updating presence, forceUpdate=$forceUpdate, forceReconnect=$forceReconnect")

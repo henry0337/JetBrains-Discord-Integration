@@ -35,17 +35,12 @@ import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.utils.Plugin
 import dev.azn9.plugins.discord.utils.infoLazy
 import dev.azn9.plugins.discord.utils.warnLazy
-import org.kohsuke.github.GHIssue
-import org.kohsuke.github.GHIssueState
-import org.kohsuke.github.GHRepository
-import org.kohsuke.github.GitHubBuilder
 import java.awt.Component
-import java.io.PrintWriter
-import java.io.StringWriter
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.security.MessageDigest
 
 data class ErrorData(
     val pluginVersion: String,
@@ -65,9 +60,16 @@ fun gatherErrorData(event: IdeaLoggingEvent, additionalInfo: String?): ErrorData
     val namesInfo = ApplicationNamesInfo.getInstance()
     val error = event.throwable
 
-    val sw = StringWriter()
-    error.printStackTrace(PrintWriter(sw))
-    val stackTrace = sw.toString()
+    var stackTrace = error.stackTraceToString()
+
+    var firstLine = stackTrace.split("\n").firstOrNull { it.trim().isNotEmpty() } ?: ""
+    if (firstLine.trim().startsWith("Unhandled exception in [CoroutineId")) {
+        stackTrace = stackTrace.substringAfter("\n")
+        firstLine = stackTrace.split("\n").firstOrNull { it.trim().isNotEmpty() } ?: ""
+    }
+
+    val md = MessageDigest.getInstance("MD5")
+    val hash = md.digest(firstLine.toByteArray()).joinToString("") { "%02x".format(it) }
 
     return ErrorData(
         Plugin.version.toString(),
@@ -76,9 +78,9 @@ fun gatherErrorData(event: IdeaLoggingEvent, additionalInfo: String?): ErrorData
         namesInfo.fullProductName,
         appInfo.build.asString(),
         appInfo.fullVersion,
-        error.message ?: "?",
-        stackTrace,
-        error.stackTrace.contentHashCode().toString(),
+        firstLine,
+        event.throwableText,
+        hash,
         additionalInfo ?: "/"
     )
 }
@@ -89,10 +91,11 @@ fun sendErrorReport(data: ErrorData): SubmittedReportInfo {
     val request = HttpRequest.newBuilder()
         .uri(URI.create("https://jdierrors.azn9.dev/"))
         .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(data)))
+        .header("Content-Type", "application/json")
         .build()
     val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
 
-    if (response.statusCode() != 200) {
+    if (response.statusCode() != 204) {
         DiscordPlugin.LOG.warnLazy { "Failed to send error report" }
         return SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.FAILED)
     }
