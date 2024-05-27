@@ -12,6 +12,8 @@ match:
       - .h++
       - .hh
       - .hxx
+      - .cppm
+      - .ixx
 
 # TODO: C++
 # .cats
