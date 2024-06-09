@@ -26,9 +26,11 @@ class ApplicationRenderer(context: RenderContext) : Renderer(context) {
         state = settings.applicationState,
         stateCustom = settings.applicationStateCustom,
         largeIcon = settings.applicationIconLarge,
+        largeIconCustom = settings.applicationIconLargeCustom,
         largeIconText = settings.applicationIconLargeText,
         largeIconTextCustom = settings.applicationIconLargeTextCustom,
         smallIcon = settings.applicationIconSmall,
+        smallIconCustom = settings.applicationIconSmallCustom,
         smallIconText = settings.applicationIconSmallText,
         smallIconTextCustom = settings.applicationIconSmallTextCustom,
         startTimestamp = settings.applicationTime

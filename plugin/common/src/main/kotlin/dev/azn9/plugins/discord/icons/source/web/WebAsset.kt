@@ -17,13 +17,20 @@
 
 package dev.azn9.plugins.discord.icons.source.web
 
+import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.icons.source.abstract.AbstractAsset
+import dev.azn9.plugins.discord.utils.warnLazy
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
 class WebAsset(private val source: String) : AbstractAsset() {
 
-    override fun getImage(size: Int?): BufferedImage? = ImageIO.read(java.net.URL(getUrl()))
+    override fun getImage(size: Int?): BufferedImage? = try {
+        ImageIO.read(java.net.URL(getUrl()))
+    } catch (e: Exception) {
+        DiscordPlugin.LOG.warnLazy(e) { "Failed to load image from URL: $source" }
+        null
+    }
 
     override fun getUrl(): String {
         return source

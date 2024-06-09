@@ -40,9 +40,11 @@ abstract class Renderer(protected val context: RenderContext) {
         state: TextValue?,
         stateCustom: TemplateValue?,
         largeIcon: IconValue?,
+        largeIconCustom: TemplateValue?,
         largeIconText: TextValue?,
         largeIconTextCustom: TemplateValue?,
         smallIcon: IconValue?,
+        smallIconCustom: TemplateValue?,
         smallIconText: TextValue?,
         smallIconTextCustom: TemplateValue?,
         startTimestamp: TimeValue?,
@@ -95,15 +97,11 @@ abstract class Renderer(protected val context: RenderContext) {
             this@presence.largeImage = when (val icon = largeIcon?.getValue()?.get(context)) {
                 null, PresenceIcon.Result.Empty -> null
                 PresenceIcon.Result.Custom -> {
-                    val assetUrl = largeIconTextCustom?.getStoredValue()?.execute(customTemplateContext)?.trim()
+                    val assetUrl = largeIconCustom?.getStoredValue()?.execute(customTemplateContext)?.trim()
 
                     if (assetUrl?.isEmpty() != false) {
-                        DiscordPlugin.LOG.warn("Custom icon is empty")
-
                         null
                     } else {
-                        DiscordPlugin.LOG.warn("Custom icon: $assetUrl")
-
                         RichPresence.Image(WebAsset(assetUrl), largeImageCaption)
                     }
                 }
@@ -121,7 +119,7 @@ abstract class Renderer(protected val context: RenderContext) {
             this@presence.smallImage = when (val icon = smallIcon?.getValue()?.get(context)) {
                 null, PresenceIcon.Result.Empty -> null
                 PresenceIcon.Result.Custom -> {
-                    val assetUrl = smallIconTextCustom?.getValue()?.execute(customTemplateContext)
+                    val assetUrl = smallIconCustom?.getValue()?.execute(customTemplateContext)
 
                     if (assetUrl == null) {
                         null
