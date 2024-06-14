@@ -27,6 +27,7 @@ import dev.azn9.plugins.discord.utils.gbc
 import dev.azn9.plugins.discord.utils.label
 import dev.azn9.plugins.discord.utils.throwing
 import com.intellij.openapi.util.JDOMExternalizerUtil
+import dev.azn9.plugins.discord.icons.source.Theme
 import kotlinx.coroutines.future.asCompletableFuture
 import org.jdom.Element
 import java.awt.GridBagConstraints
@@ -113,14 +114,23 @@ class ThemeOption(text: String, val description: String?, val showDefault: Boole
     init {
         var value = this.currentValue
         if (value == null || value !in source.themeMap.keys) {
-            value = source.themeMap.default.id
+            value = if (showDefault) {
+                Theme.Default.id
+            } else {
+                source.themeMap.default.id
+            }
             this.currentValue = value
         }
 
         this.componentValue = value
 
         this.componentImpl.isEnabled = true
-        this.componentImpl.text = source.themeMap[value]!!.name
+
+        if (value == Theme.Default.id) {
+            this.componentImpl.text = Theme.Default.name
+        } else {
+            this.componentImpl.text = source.themeMap[value]!!.name
+        }
     }
 
     private val value = ThemeValue(this)
