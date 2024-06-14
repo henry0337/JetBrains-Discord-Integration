@@ -1,3 +1,22 @@
+## v2.1.0
+- Added support for IntelliJ IDEA 2024+
+- Allow users to set a custom discord application id per project
+- Allow users to choose a different icon theme for application icons and file icons
+- Added support for hlsl files, and added missing icons for glsl
+- Added a theme with the new JetBrains icons
+- Added two themes for language: Catppuccin Late and Mocha
+- Allow users to set an url for the large and small images
+- Allow users to automatically report errors as GitHub issues via the error dialog
+- Disable the need to restart the IDE when updating or disabling the plugin
+- Add missing matchers for C++ modules (.cppm and .ixx)
+- The plugin will no longer display the project name if the user has not chosen a display mode to avoid leaking information
+- Fix an issue where choosing the "default" theme for a project would not update when changing the global theme
+- Fix an issue where changing theme would not update the presence
+- Fix a false positive with arRPC
+- Fix an issue with "1d" idle value
+- Move icons to a CDN to allow for faster updates
+- Rework the theme system to allow for more flexibility and easier updates
+
 ## v2.0.8
 - Fixed compatibility issues with IDEs version 2023.2 and above 
 
