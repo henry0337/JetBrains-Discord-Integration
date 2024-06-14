@@ -1,0 +1,7 @@
+name: HLSL Shader
+asset: hlsl
+parent: text
+match:
+  extension:
+    equals:
+      - .hlsl
