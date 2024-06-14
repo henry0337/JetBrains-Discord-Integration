@@ -26,6 +26,7 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
+import dev.azn9.plugins.discord.settings.values.ThemeType
 
 @State(name = "DiscordProjectSettings", storages = [Storage("discord.xml")])
 class ProjectSettingsImpl(override val project: Project) : ProjectSettings, PersistentStateOptionHolderImpl() {
@@ -40,7 +41,8 @@ class ProjectSettingsImpl(override val project: Project) : ProjectSettings, Pers
 
     override val description by text("Project description", "")
 
-    override val theme by themeChooser("Project theme", "The theme to use for this project", true)
+    override val applicationTheme by themeChooser("Theme for the application icon", null, true, ThemeType.APPLICATION_ONLY)
+    override val iconsTheme by themeChooser("Theme for the language icons", null, true, ThemeType.LANGUAGE_ONLY)
 
     override val button1Title by text("Button 1 title", "")
     override val button1Url by text("Button 1 url", "")

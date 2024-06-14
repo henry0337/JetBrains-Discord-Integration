@@ -53,13 +53,10 @@ abstract class Renderer(protected val context: RenderContext) {
         DiscordPlugin.LOG.debug("Rendering presence, data=${context.data}, mode=${context.mode}")
         DiscordPlugin.LOG.debug("Themes: ${context.source.getThemesOrNull()}")
         DiscordPlugin.LOG.debug("languages: ${context.source.getLanguagesOrNull()}")
-        DiscordPlugin.LOG.debug("Icons: ${context.icons}")
+        DiscordPlugin.LOG.debug("Application Icons: ${context.applicationIcons}")
+        DiscordPlugin.LOG.debug("Language Icons: ${context.languageIcons}")
         DiscordPlugin.LOG.debug("Data: ${context.data}")
         DiscordPlugin.LOG.debug("Mode: ${context.mode}")
-
-        if (context.icons == null) {
-            DiscordPlugin.LOG.debug("RenderContext.icons=null")
-        }
 
         return RichPresence(context.applicationData?.applicationId) presence@{
             val customTemplateContext by lazy { context.asCustomTemplateContext() }

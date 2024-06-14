@@ -28,7 +28,7 @@ import dev.azn9.plugins.discord.utils.label
 import dev.azn9.plugins.discord.utils.throwing
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import dev.azn9.plugins.discord.icons.source.Theme
-import kotlinx.coroutines.future.asCompletableFuture
+import dev.azn9.plugins.discord.settings.values.ThemeType
 import org.jdom.Element
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
@@ -38,10 +38,10 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 import kotlin.reflect.KProperty
 
-fun OptionCreator<in ThemeValue>.themeChooser(text: String, description: String? = null, showDefault: Boolean = false) =
-    OptionProviderImpl(this, ThemeOption(text, description, showDefault))
+fun OptionCreator<in ThemeValue>.themeChooser(text: String, description: String? = null, showDefault: Boolean = false, themeType: ThemeType) =
+    OptionProviderImpl(this, ThemeOption(text, description, showDefault, themeType))
 
-class ThemeOption(text: String, val description: String?, val showDefault: Boolean) : Option<ThemeValue>(text), ThemeValue.Provider {
+class ThemeOption(text: String, val description: String?, val showDefault: Boolean, themeType: ThemeType) : Option<ThemeValue>(text), ThemeValue.Provider {
     private val source: Source = sourceService.source
 
     private val listeners = mutableListOf<(ThemeValue) -> Unit>()
@@ -63,9 +63,17 @@ class ThemeOption(text: String, val description: String?, val showDefault: Boole
 
         addActionListener {
             val themes = this@ThemeOption.source.getThemesOrNull()
+            var themeMap = themes as Map<String, Theme>?
 
-            if (themes != null) {
-                val dialog = ThemeDialog(themes, componentValue, showDefault)
+            if (themeType == ThemeType.APPLICATION_ONLY) {
+                themeMap = themeMap?.filter { !it.value.onlyLanguageIcons }
+            }
+            if (themeType == ThemeType.LANGUAGE_ONLY) {
+                themeMap = themes?.filter { !it.value.onlyApplicationIcons }
+            }
+
+            if (themeMap != null) {
+                val dialog = ThemeDialog(themeMap, componentValue, showDefault)
                 val result = dialog.showAndGet()
 
                 if (result) {

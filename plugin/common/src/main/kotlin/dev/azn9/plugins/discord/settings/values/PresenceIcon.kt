@@ -26,11 +26,11 @@ typealias IconValue = SimpleValue<PresenceIcon>
 
 enum class PresenceIcon(override val text: String, override val description: String? = null) : RenderedValue<PresenceIcon.Result>, UiValueType {
     APPLICATION("Application") {
-        override fun RenderContext.getResult() = icons?.getAsset("application").toResult()
+        override fun RenderContext.getResult() = applicationIcons?.getAsset("application").toResult()
     },
     FILE("File") {
         override fun RenderContext.getResult(): Result {
-            return icons?.let { icons -> language?.findIcon(icons) }?.asset.toResult()
+            return languageIcons?.let { icons -> language?.findIcon(icons) }?.asset.toResult()
         }
     },
     NONE("None") {

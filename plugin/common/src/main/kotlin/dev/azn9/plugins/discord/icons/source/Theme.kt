@@ -24,7 +24,11 @@ interface Theme {
         override val name: String
             get() = "Default"
         override val description: String
-            get() = "The default theme"
+            get() = "Use the theme set on the global settings"
+        override val onlyApplicationIcons: Boolean
+            get() = false
+        override val onlyLanguageIcons: Boolean
+            get() = false
 
         override fun getIconSet(applicationName: String): IconSet? {
             return null
@@ -35,6 +39,8 @@ interface Theme {
     val id: String
     val name: String
     val description: String
+    val onlyApplicationIcons: Boolean
+    val onlyLanguageIcons: Boolean
 
     fun getIconSet(applicationName: String): IconSet?
 }

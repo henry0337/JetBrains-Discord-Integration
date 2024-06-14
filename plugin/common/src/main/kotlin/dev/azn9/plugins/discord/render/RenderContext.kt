@@ -24,10 +24,22 @@ import dev.azn9.plugins.discord.settings.options.types.SimpleValue
 import dev.azn9.plugins.discord.settings.settings
 
 class RenderContext(val source: Source, val data: Data, val mode: Renderer.Mode) {
-    val icons: IconSet? by lazy {
-        var themeValue = projectData?.projectSettings?.theme ?: settings.theme
+
+    val applicationIcons: IconSet? by lazy {
+        var themeValue = projectData?.projectSettings?.applicationTheme ?: settings.applicationTheme
         if (themeValue.getValue() == "default") {
-            themeValue = settings.theme
+            themeValue = settings.applicationTheme
+        }
+
+        source.getThemesOrNull()
+            ?.get(themeValue.getValue())
+            ?.getIconSet(settings.applicationType.getValue().applicationName)
+    }
+
+    val languageIcons: IconSet? by lazy {
+        var themeValue = projectData?.projectSettings?.iconsTheme ?: settings.iconsTheme
+        if (themeValue.getValue() == "default") {
+            themeValue = settings.iconsTheme
         }
 
         source.getThemesOrNull()

@@ -23,8 +23,8 @@ import org.apache.commons.io.FilenameUtils
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.collections.set
 
-class ClasspathTheme(private val source: ClasspathSource, id: String, name: String, description: String) :
-    AbstractTheme(id, name, description) {
+class ClasspathTheme(private val source: ClasspathSource, id: String, name: String, description: String, onlyApplicationIcons: Boolean, onlyLanguageIcons: Boolean) :
+    AbstractTheme(id, name, description, onlyApplicationIcons, onlyLanguageIcons) {
     private val sets = ConcurrentHashMap<String, ClasspathIconSet>()
 
     override fun getIconSet(applicationName: String): IconSet {
