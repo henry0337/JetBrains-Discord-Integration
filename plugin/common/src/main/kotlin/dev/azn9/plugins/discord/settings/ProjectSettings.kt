@@ -40,7 +40,8 @@ interface ProjectSettings : PersistentStateComponent<Element>, OptionHolder {
 
     val description: StringValue
 
-    val theme: ThemeValue?
+    val applicationTheme: ThemeValue?
+    val iconsTheme: ThemeValue?
 
     val button1Title: StringValue
     val button1Url: StringValue

@@ -15,18 +15,11 @@
  * limitations under the License.
  */
 
-package dev.azn9.plugins.discord.icons.source.abstract
+package dev.azn9.plugins.discord.settings.values
 
-import dev.azn9.plugins.discord.icons.source.Theme
+enum class ThemeType {
 
-abstract class AbstractTheme(
-    override val id: String,
-    override val name: String,
-    override val description: String,
-    override val onlyApplicationIcons: Boolean,
-    override val onlyLanguageIcons: Boolean
-) : Theme {
-    override fun toString(): String {
-        return "AbstractTheme(id='$id', name='$name', description='$description', onlyApplicationIcons=$onlyApplicationIcons, onlyLanguageIcons=$onlyLanguageIcons)"
-    }
+    APPLICATION_ONLY,
+    LANGUAGE_ONLY;
+
 }

@@ -137,7 +137,9 @@ class ApplicationSettingsImpl : ApplicationSettings, PersistentStateOptionHolder
     /* ========== General Settings ========== */
 
     override val applicationType by selection("Application name", ApplicationType.IDE_EDITION)
-    override val theme by themeChooser("Theme")
+
+    override val applicationTheme by themeChooser("Theme for the application icon", null, false, ThemeType.APPLICATION_ONLY)
+    override val iconsTheme by themeChooser("Theme for the language icons", null, false, ThemeType.LANGUAGE_ONLY)
 
     /* ---------- Hidden Settings ---------- */
 

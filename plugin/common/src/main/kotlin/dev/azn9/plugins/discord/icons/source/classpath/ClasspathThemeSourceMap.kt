@@ -23,6 +23,6 @@ import dev.azn9.plugins.discord.icons.source.abstract.AbstractThemeSourceMap
 
 class ClasspathThemeSourceMap(private val source: ClasspathSource, map: Map<String, ThemeSource>) : AbstractThemeSourceMap(map) {
     override fun createThemeMap(themes: Map<String, Theme>, default: Theme) = ClasspathThemeMap(themes, default)
-    override fun createTheme(id: String, name: String, description: String) =
-        ClasspathTheme(source, id, name, description)
+    override fun createTheme(id: String, name: String, description: String, onlyApplicationIcons: Boolean, onlyLanguageIcons: Boolean) =
+        ClasspathTheme(source, id, name, description, onlyApplicationIcons, onlyLanguageIcons)
 }

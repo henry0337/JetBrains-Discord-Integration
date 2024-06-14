@@ -18,7 +18,6 @@
 package dev.azn9.plugins.discord.settings.gui.themes
 
 import dev.azn9.plugins.discord.icons.source.Theme
-import dev.azn9.plugins.discord.icons.source.ThemeMap
 import com.intellij.openapi.ui.DialogWrapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +31,7 @@ import javax.swing.JPanel
 import javax.swing.plaf.basic.BasicComboBoxRenderer
 import kotlin.coroutines.CoroutineContext
 
-class ThemeDialog(private val themes: ThemeMap, private val initialValue: String?, private val showDefault: Boolean = false) : DialogWrapper(null, true, IdeModalityType.IDE), CoroutineScope {
+class ThemeDialog(private val themes: Map<String, Theme>, private val initialValue: String?, private val showDefault: Boolean = false) : DialogWrapper(null, true, IdeModalityType.IDE), CoroutineScope {
     private val parentJob: Job = SupervisorJob()
 
     override val coroutineContext: CoroutineContext

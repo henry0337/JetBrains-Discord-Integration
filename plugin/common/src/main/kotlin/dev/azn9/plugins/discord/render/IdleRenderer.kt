@@ -36,7 +36,7 @@ class IdleRenderer(context: RenderContext) : Renderer(context) {
                 )
             }
 
-            this@presence.largeImage = icons?.let { icons -> RichPresence.Image(icons.getAsset("application"), "Idling") }
+            this@presence.largeImage = applicationIcons?.let { icons -> RichPresence.Image(icons.getAsset("application"), "Idling") }
 
             this.partyId = Plugin.version?.toString()
         }
