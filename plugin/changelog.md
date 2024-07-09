@@ -4,6 +4,7 @@
 - Allow users to choose a different icon theme for application icons and file icons
 - Added support for hlsl files, and added missing icons for glsl
 - Added a theme with the new JetBrains icons
+- Added a theme with the macOS JetBrains icons
 - Added two themes for language: Catppuccin Late and Mocha
 - Allow users to set an url for the large and small images
 - Allow users to automatically report errors as GitHub issues via the error dialog
