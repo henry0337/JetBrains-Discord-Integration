@@ -48,6 +48,7 @@ This plugin is split into different versions corresponding to the lowest support
 - `v223` is for IDEs 2022.3.X and above
 - `v231` is for IDEs 2023.1.X and above
 - `v232` is for IDEs 2023.2.X and above
+- `v242` is for IDEs 2024.2.X and above
 
 Warning, you must choose the correct lowest version for your IDE!
 For instance, if you are using IntelliJ IDEA 2022.2.X you **must** choose the `v212` version, not the `v223` version, even though the `v223` version is nearer to your version. 
