@@ -1,3 +1,6 @@
+## v2.1.1
+- Re-enable the need to restart the IDE when updating or disabling the plugin to avoid issues like `getService(T::class.java) must not be null`
+
 ## v2.1.0
 - Added support for IntelliJ IDEA 2024+
 - Allow users to set a custom discord application id per project
