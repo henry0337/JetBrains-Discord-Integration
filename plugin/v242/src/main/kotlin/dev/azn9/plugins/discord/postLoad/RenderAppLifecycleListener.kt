@@ -21,7 +21,7 @@ import dev.azn9.plugins.discord.render.renderService
 import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
-import com.intellij.openapi.startup.StartupActivity
+import dev.azn9.plugins.discord.DiscordPlugin
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -31,6 +31,10 @@ class RenderPreloadingActivity : ProjectActivity, DisposableCoroutineScope {
 
     override suspend fun execute(project: Project) {
         launch {
+            if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+                return@launch
+            }
+
             renderService.startRenderClock()
         }
     }

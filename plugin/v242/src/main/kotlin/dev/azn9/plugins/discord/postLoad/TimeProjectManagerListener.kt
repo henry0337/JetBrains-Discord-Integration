@@ -21,6 +21,7 @@ import dev.azn9.plugins.discord.time.timeService
 import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
+import dev.azn9.plugins.discord.DiscordPlugin
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 
@@ -28,6 +29,10 @@ class TimeProjectManagerListener : ProjectActivity, DisposableCoroutineScope {
     override val parentJob: Job = SupervisorJob()
 
     override suspend fun execute(project: Project) {
+        if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+            return
+        }
+
         if (!project.isDefault)
             timeService.initializeProject(project)
     }

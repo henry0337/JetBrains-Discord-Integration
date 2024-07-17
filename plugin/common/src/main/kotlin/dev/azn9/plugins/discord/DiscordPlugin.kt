@@ -17,8 +17,22 @@
 
 package dev.azn9.plugins.discord
 
+import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.extensions.PluginDescriptor
 
 object DiscordPlugin {
     val LOG: Logger = Logger.getInstance("Discord")
+
+    fun isAlmightyAlpacasPluginPresent() : Boolean {
+        for (plugin: PluginDescriptor? in PluginManager.getPlugins()) {
+            when (plugin?.pluginId?.idString) {
+                "com.almightyalpaca.intellij.plugins.discord" -> {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
 }

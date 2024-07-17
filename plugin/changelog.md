@@ -1,3 +1,9 @@
+## v2.1.2
+- Cancel some functionalities of the plugin if Almighty Alpaca's old version is detected as it raises exceptions
+- Add notifications when an issue that may/will prevent the plugin from working is detected
+- Fix error "IPC error: ErrorEventData(code=1000, message=Request has been terminated..."
+- Fix error "Throwable: unknown runnable: dev.azn9.plugins.discord.time.TimeService"
+
 ## v2.1.1
 - Re-enable the need to restart the IDE when updating or disabling the plugin to avoid issues like `getService(T::class.java) must not be null`
 

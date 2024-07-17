@@ -106,10 +106,14 @@ class TimeService : TimeServiceAbstract, Disposable {
     }
 
     override fun load() {
+        if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+            return
+        }
+
         DiscordPlugin.LOG.debug("Loading TimeService vPRE-223")
 
-        if (loaded.getAndSet(true)) {
-            unload()
+        if (loaded.get()) {
+            return
         }
 
         initializeApplication(ApplicationManager.getApplication())
@@ -126,6 +130,7 @@ class TimeService : TimeServiceAbstract, Disposable {
 
         IdeEventQueue.invokeLater {
             IdeEventQueue.getInstance().addIdleListener(idleListener, timeoutMillis)
+            loaded.set(true)
         }
     }
 

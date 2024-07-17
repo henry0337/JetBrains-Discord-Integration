@@ -3,7 +3,7 @@ antlr = "4.13.1"
 commons-io = "2.15.1"
 commons-lang = "3.14.0"
 commons-text = "1.11.0"
-discord-ipc = "0.2.2"
+discord-ipc = "0.2.4"
 docker = "3.2.13"
 foojay-resolver-convention = "0.8.0" # Also update manually in settings.gradle.kts
 gitversion = "3.0.0"
@@ -50,7 +50,7 @@ antlr-runtime = { group = "org.antlr", name = "antlr4-runtime", version.ref = "a
 commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
 commons-lang = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commons-lang" }
 commons-text = { group = "org.apache.commons", name = "commons-text", version.ref = "commons-text" }
-discord-ipc = { group = "com.github.cbyrneee", name = "azn9_KDiscordIPC", version.ref = "discord-ipc" }
+discord-ipc = { group = "dev.cbyrne", name = "azn9_KDiscordIPC", version.ref = "discord-ipc" }
 docker = { group = "com.github.docker-java", name = "docker-java", version.ref = "docker" }
 gradle-shadow = { group = "gradle.plugin.com.github.jengelman.gradle.plugins", name = "shadow", version.ref = "shadow" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }

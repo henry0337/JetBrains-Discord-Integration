@@ -17,14 +17,14 @@
 
 package dev.azn9.plugins.discord.settings
 
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.service
+import com.intellij.openapi.project.Project
 import dev.azn9.plugins.discord.settings.options.OptionHolder
 import dev.azn9.plugins.discord.settings.options.types.BooleanValue
 import dev.azn9.plugins.discord.settings.options.types.StringValue
 import dev.azn9.plugins.discord.settings.options.types.ThemeValue
 import dev.azn9.plugins.discord.settings.values.ProjectShowValue
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.service
-import com.intellij.openapi.project.Project
 import org.jdom.Element
 
 val Project.settings: ProjectSettings

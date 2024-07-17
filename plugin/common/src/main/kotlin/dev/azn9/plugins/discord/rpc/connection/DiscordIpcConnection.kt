@@ -33,6 +33,7 @@ import dev.cbyrne.kdiscordipc.core.event.impl.ErrorEvent
 import dev.cbyrne.kdiscordipc.core.event.impl.ReadyEvent
 import dev.cbyrne.kdiscordipc.data.activity.*
 import kotlinx.coroutines.*
+import org.intellij.markdown.flavours.gfm.table.GitHubTableMarkerProvider.Companion.contains
 import java.io.ByteArrayOutputStream
 import java.util.Base64
 import javax.imageio.ImageIO
@@ -142,7 +143,11 @@ class DiscordIpcConnection(override val appId: Long, private val userCallback: U
     }
 
     private fun onError(event: ErrorEvent) {
-        DiscordPlugin.LOG.errorLazy { "IPC error: ${event.data}" }
+        if (event.data.code == 1000) { // "Request has been terminated Possible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.)"
+            return
+        }
+
+        DiscordPlugin.LOG.warnLazy { "IPC error: ${event.data}" }
     }
 
     private fun onCurrentUserUpdate(event: CurrentUserUpdateEvent) {

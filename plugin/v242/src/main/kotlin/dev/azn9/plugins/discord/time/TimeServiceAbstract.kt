@@ -112,10 +112,14 @@ class TimeService : TimeServiceAbstract, Disposable {
     }
 
     override fun load() {
+        if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+            return
+        }
+
         DiscordPlugin.LOG.debug("Loading TimeService vPOST-242")
 
-        if (loaded.getAndSet(true)) {
-            unload()
+        if (loaded.get()) {
+            return
         }
 
         initializeApplication(ApplicationManager.getApplication())
@@ -131,6 +135,7 @@ class TimeService : TimeServiceAbstract, Disposable {
         val timeoutMillis = settings.timeoutMinutes.getStoredValue() * 60 * 1000
 
         listenerToken = IdleTracker.getInstance().addIdleListener(timeoutMillis, idleListener)
+        loaded.set(true)
     }
 
     private fun unload() {

@@ -32,6 +32,7 @@ import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessModuleDir
 import com.intellij.openapi.wm.IdeFocusManager
+import com.intellij.serviceContainer.AlreadyDisposedException
 import com.intellij.xdebugger.XDebuggerManager
 import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.extensions.VcsInfoExtension
@@ -52,7 +53,13 @@ val dataService: DataService
 class DataService {
     suspend fun getData(mode: Renderer.Mode): Data? = tryOrNull {
         mode.runCatching { getData() }
-            .onFailure { DiscordPlugin.LOG.warnLazy(it) { "Failed to get data" } }
+            .onFailure { e ->
+                if (e is AlreadyDisposedException) {
+                    return@onFailure
+                }
+
+                DiscordPlugin.LOG.warnLazy(e) { "Failed to get data" }
+            }
             .getOrNull()
     }
 
