@@ -36,6 +36,10 @@ class NotificationPostStartupActivity : ProjectActivity, DisposableCoroutineScop
 
     override suspend fun execute(project: Project) {
         launch {
+            if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+                return@launch
+            }
+
             checkUpdate()
             checkAskShowProject(project)
         }

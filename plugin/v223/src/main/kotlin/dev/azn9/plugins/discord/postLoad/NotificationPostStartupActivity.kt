@@ -17,6 +17,8 @@
 
 package dev.azn9.plugins.discord.postLoad
 
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.startup.StartupActivity
 import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.notifications.ApplicationUpdateNotification
 import dev.azn9.plugins.discord.notifications.ProjectShowNotification
@@ -25,8 +27,6 @@ import dev.azn9.plugins.discord.settings.settings
 import dev.azn9.plugins.discord.settings.values.ProjectShow
 import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
 import dev.azn9.plugins.discord.utils.Plugin
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.startup.StartupActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -36,6 +36,10 @@ class NotificationPostStartupActivity : StartupActivity.Background, StartupActiv
 
     override fun runActivity(project: Project) {
         launch {
+            if (DiscordPlugin.isAlmightyAlpacasPluginPresent()) {
+                return@launch
+            }
+
             checkUpdate()
             checkAskShowProject(project)
         }

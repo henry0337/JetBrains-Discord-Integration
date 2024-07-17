@@ -57,6 +57,7 @@
 
         <notificationGroup displayType="STICKY_BALLOON" id="dev.azn9.plugins.discord.notification.project.show"/>
         <notificationGroup displayType="STICKY_BALLOON" id="dev.azn9.plugins.discord.notification.update" isLogByDefault="true"/>
+        <notificationGroup displayType="STICKY_BALLOON" id="dev.azn9.plugins.discord.notification.error" isLogByDefault="true"/>
 
         <backgroundPostStartupActivity implementation="dev.azn9.plugins.discord.postLoad.NotificationPostStartupActivity"/>
         <backgroundPostStartupActivity implementation="dev.azn9.plugins.discord.postLoad.TimeProjectManagerListener"/>
@@ -68,22 +69,22 @@
     </extensions>
 
     <actions>
-        <group id="DiscordActionGroup"
+        <group id="DiscordActionGroupV2"
                text="Discord"
                popup="true"
                icon="/discord/images/logo/blurple.svg">
             <add-to-group group-id="ToolsMenu"/>
 
-            <action id="DiscordActionGroup.ApplicationHideAction"
+            <action id="DiscordActionGroupV2.ApplicationHideAction"
                     class="dev.azn9.plugins.discord.actions.ApplicationShowAction"/>
-            <group id="DiscordActionGroup.ProjectShowAction"
+            <group id="DiscordActionGroupV2.ProjectShowAction"
                    class="dev.azn9.plugins.discord.actions.ProjectShowAction"/>
 
             <separator/>
 
-            <action id="DiscordActionGroup.RenderUpdateAction"
+            <action id="DiscordActionGroupV2.RenderUpdateAction"
                     class="dev.azn9.plugins.discord.actions.ForceRenderUpdateAction"/>
-            <action id="DiscordActionGroup.ReconnectAction"
+            <action id="DiscordActionGroupV2.ReconnectAction"
                     class="dev.azn9.plugins.discord.actions.ForceReconnectAction"/>
         </group>
     </actions>

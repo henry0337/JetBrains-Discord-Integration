@@ -17,11 +17,11 @@
 
 package dev.azn9.plugins.discord.settings
 
+import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.service
 import dev.azn9.plugins.discord.settings.options.OptionHolder
 import dev.azn9.plugins.discord.settings.options.types.*
 import dev.azn9.plugins.discord.settings.values.*
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.service
 import org.jdom.Element
 
 val settings: ApplicationSettings

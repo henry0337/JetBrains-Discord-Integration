@@ -17,19 +17,21 @@
 
 package dev.azn9.plugins.discord.diagnose
 
-import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
-import dev.azn9.plugins.discord.utils.tryOrDefault
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.ApplicationNamesInfo
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.extensions.PluginDescriptor
+import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
+import dev.azn9.plugins.discord.utils.tryOrDefault
+import dev.cbyrne.kdiscordipc.core.socket.SocketProvider
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import org.apache.commons.lang3.SystemUtils
 import java.io.File
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 val diagnoseService: DiagnoseService
@@ -107,15 +109,31 @@ class DiagnoseService : DisposableCoroutineScope {
             "DiscordDevelopment.exe"
         )
 
-        val hasIpcFile = (0..9).map { "discord-ipc-$it" }.any {
-            try {
-                File("\\\\?\\pipe\\$it").exists()
-            } catch (e: Exception) {
-                false
+        val ipcFile = (0..9).map { "discord-ipc-$it" }
+            .map { File("\\\\?\\pipe\\$it") }.firstOrNull { file ->
+                try {
+                    file.exists()
+                } catch (e: Exception) {
+                    false
+                }
             }
-        }
 
-        if (hasIpcFile) {
+        if (ipcFile != null) {
+            try {
+                val socket = SocketProvider.systemDefault()
+                socket.connect(ipcFile)
+                socket.close()
+            } catch (e: IOException) {
+                return Discord.ADMINISTRATOR
+            } catch (e: Throwable) {
+                // Ignore
+            }
+
+            if (!ipcFile.canWrite() || !ipcFile.canRead()) {
+                return Discord.ADMINISTRATOR
+            }
+
+            // We found an IPC file and seems to have access to it
             return Discord.OTHER
         }
 
@@ -149,6 +167,7 @@ class DiagnoseService : DisposableCoroutineScope {
                 "com.tsunderebug.discordintellij" -> matches++
                 "com.my.fobes.intellij.discord" -> matches++
                 "com.almightyalpaca.intellij.plugins.discord" -> matches++
+                "io.github.pandier.intellijdiscordrp" -> matches++
             }
         }
 
@@ -187,6 +206,7 @@ class DiagnoseService : DisposableCoroutineScope {
         BROWSER("It seems like Discord is running in the browser. The plugin will not be able to connect to the Discord client!"),
         CLOSED("Could not detect a running Discord client!"),
         RUNNING_WITHOUT_RICH_PRESENCE_ENABLED("It seems like Discord is running, but Rich Presence is not enabled!"),
+        ADMINISTRATOR("It seems like Discord is running in administrator, this will prevent the plugin from connecting to your Discord client!"),
         OTHER("")
     }
 
