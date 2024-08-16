@@ -27,14 +27,14 @@ ide-v212 = "2021.2" # Uses Java 11
 ide-v223 = "2022.3.3" # Uses Java 17
 ide-v231 = "2023.1.5" # New postLoad system
 ide-v232 = "2023.2.4" # New idle listener system
-ide-v242 = "242.10180.25" # Uses Java 21 and changes to git // TODO - Replace this eap version with the release once it's released
+ide-v242 = "2024.2.0.1" # Uses Java 21 and changes to git
 
 intellij-common = "1.17.3"
 intellij-v212 = "1.17.3"
 intellij-v223 = "1.17.3"
 intellij-v231 = "1.17.3"
 intellij-v232 = "1.17.3"
-intellij-v242 = "2.0.0-SNAPSHOT"
+intellij-v242 = "2.0.1"
 
 kotlin-latest = "1.9.22"
 kotlin-common = "1.7.0"
