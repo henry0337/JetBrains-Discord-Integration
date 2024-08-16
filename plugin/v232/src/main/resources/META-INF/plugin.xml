@@ -23,6 +23,7 @@
     <idea-version since-build="232.0" until-build="241.*"/>
 
     <depends>com.intellij.modules.lang</depends>
+    <incompatible-with>com.almightyalpaca.intellij.plugins.discord</incompatible-with>
 
     <depends optional="true" config-file="git-extension.xml">Git4Idea</depends>
 
