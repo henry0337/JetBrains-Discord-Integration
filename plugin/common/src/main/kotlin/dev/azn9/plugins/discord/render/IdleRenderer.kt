@@ -17,7 +17,11 @@
 
 package dev.azn9.plugins.discord.render
 
+import dev.azn9.plugins.discord.render.templates.asCustomTemplateContext
 import dev.azn9.plugins.discord.rpc.RichPresence
+import dev.azn9.plugins.discord.settings.settings
+import dev.azn9.plugins.discord.settings.values.PresenceIcon
+import dev.azn9.plugins.discord.settings.values.PresenceText
 import dev.azn9.plugins.discord.utils.Plugin
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -26,7 +30,7 @@ import java.time.ZoneId
 class IdleRenderer(context: RenderContext) : Renderer(context) {
     override fun RenderContext.render(): RichPresence {
 
-        return RichPresence(context.applicationData?.applicationId) presence@{
+        return RichPresence(idleData?.applicationId) presence@{
             this@presence.details = "Idling"
 
             this@presence.startTimestamp = idleData?.idleTimestamp?.let {
@@ -36,7 +40,19 @@ class IdleRenderer(context: RenderContext) : Renderer(context) {
                 )
             }
 
-            this@presence.largeImage = applicationIcons?.let { icons -> RichPresence.Image(icons.getAsset("application"), "Idling") }
+            val customTemplateContext by lazy { context.asCustomTemplateContext() }
+
+            this@presence.largeImage = when (val icon = settings.applicationIconLarge.getValue().get(context)) {
+                PresenceIcon.Result.Empty -> null
+                is PresenceIcon.Result.Asset -> {
+                    val caption = when (val text = settings.applicationIconLargeText.getValue().get(context)) {
+                        PresenceText.Result.Empty -> null
+                        is PresenceText.Result.String -> text.value
+                        PresenceText.Result.Custom -> settings.applicationIconLargeTextCustom.getValue().execute(customTemplateContext)
+                    }
+                    RichPresence.Image(icon.value, caption)
+                }
+            }
 
             this.partyId = Plugin.version?.toString()
         }

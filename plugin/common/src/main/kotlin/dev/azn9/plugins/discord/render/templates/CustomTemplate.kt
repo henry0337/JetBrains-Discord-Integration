@@ -229,6 +229,11 @@ private fun Data.asTemplateData(): TemplateData =
                 this.applicationVersion
             )
 
+        is Data.Idle ->
+            TemplateData.Application(
+                this.applicationVersion
+            )
+
         else -> throw IllegalArgumentException()
     }
 

@@ -45,7 +45,7 @@ class TemplateOption(text: String, description: String?, initialValue: String) :
 
     private val textFieldInfoExtension = ExtendableTextComponent.Extension.create(AllIcons.General.Information, "Supports templates (click for more info)") {
         try {
-            Desktop.getDesktop().browse(URI.create(Plugin.branchBase + "/plugin/templates.adoc"))
+            Desktop.getDesktop().browse(URI.create("https://github.com/Azn9/JetBrains-Discord-Integration/blob/develop/plugin/templates.adoc"))
         } catch (e: Exception) {
             DiscordPlugin.LOG.warnLazy(e) { "Failed to open templates.adoc" }
         }

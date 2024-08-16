@@ -32,6 +32,7 @@ import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessModuleDir
 import com.intellij.openapi.wm.IdeFocusManager
+
 import com.intellij.serviceContainer.AlreadyDisposedException
 import com.intellij.xdebugger.XDebuggerManager
 import dev.azn9.plugins.discord.DiscordPlugin
@@ -117,7 +118,11 @@ class DataService {
                 IGNORE -> Unit
                 IDLE -> {
                     val idleTimestamp = System.currentTimeMillis() - application.idleTime
-                    return Data.Idle(idleTimestamp)
+                    return Data.Idle(
+                        idleTimestamp,
+                        applicationId,
+                        applicationVersion
+                    )
                 }
 
                 HIDE -> return Data.None
@@ -136,6 +141,22 @@ class DataService {
 
                 if (editor != null) {
                     val file = editor.file
+
+                    /*if (editor is Editor && file != null) {
+                        val psiFile = PsiManager.getInstance(project).findFile(file);
+
+                        if (psiFile != null) {
+                            val document = editor.document
+                            var offset = editor.caretModel.offset
+
+                            offset -= document.text.substring(0, offset).length
+
+                            val element = psiFile.findElementAt(offset)
+
+                            val currentMethodPsi = PsiTreeUtil.getParentOfType(element, )
+                            val currentClassPsi = PsiTreeUtil.getParentOfType(element, )
+                        }
+                    }*/
 
                     if (file != null
                         && project.settings.show.getValue() >= ProjectShow.PROJECT_FILES

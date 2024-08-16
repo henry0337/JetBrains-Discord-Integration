@@ -17,6 +17,7 @@
 
 package dev.azn9.plugins.discord.data
 
+import com.intellij.openapi.util.NlsSafe
 import dev.azn9.plugins.discord.icons.matcher.Matcher
 import dev.azn9.plugins.discord.icons.utils.toSet
 import dev.azn9.plugins.discord.settings.ApplicationSettings
@@ -31,7 +32,11 @@ sealed class Data {
         override fun toString(): String = "Data.None"
     }
 
-    open class Idle(val idleTimestamp: Long) : Data() {
+    open class Idle(
+        val idleTimestamp: Long,
+        val applicationId: Long,
+        val applicationVersion: String
+    ) : Data() {
         override fun toString(): String {
             return "Data.Idle(idleTimestamp=$idleTimestamp)"
         }

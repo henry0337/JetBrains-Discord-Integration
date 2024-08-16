@@ -18,13 +18,11 @@
 package dev.azn9.plugins.discord.rpc.connection
 
 import dev.azn9.plugins.discord.DiscordPlugin
-import dev.azn9.plugins.discord.icons.source.Asset
 import dev.azn9.plugins.discord.rpc.RichPresence
 import dev.azn9.plugins.discord.rpc.User
 import dev.azn9.plugins.discord.rpc.UserCallback
 import dev.azn9.plugins.discord.utils.DisposableCoroutineScope
 import dev.azn9.plugins.discord.utils.debugLazy
-import dev.azn9.plugins.discord.utils.errorLazy
 import dev.azn9.plugins.discord.utils.warnLazy
 import dev.cbyrne.kdiscordipc.KDiscordIPC
 import dev.cbyrne.kdiscordipc.core.error.ConnectionError
@@ -33,10 +31,6 @@ import dev.cbyrne.kdiscordipc.core.event.impl.ErrorEvent
 import dev.cbyrne.kdiscordipc.core.event.impl.ReadyEvent
 import dev.cbyrne.kdiscordipc.data.activity.*
 import kotlinx.coroutines.*
-import org.intellij.markdown.flavours.gfm.table.GitHubTableMarkerProvider.Companion.contains
-import java.io.ByteArrayOutputStream
-import java.util.Base64
-import javax.imageio.ImageIO
 import dev.cbyrne.kdiscordipc.data.user.User as NativeUser
 
 class DiscordIpcConnection(override val appId: Long, private val userCallback: UserCallback) :
@@ -91,13 +85,27 @@ class DiscordIpcConnection(override val appId: Long, private val userCallback: U
     override suspend fun clearActivity() {
         DiscordPlugin.LOG.debugLazy { "Clearing presence" }
 
-        try {
-            if (running)
-                ipcClient.activityManager.clearActivity()
-        } catch (e: TimeoutCancellationException) {
-            DiscordPlugin.LOG.debugLazy { "Error clearing presence, timed out" }
-        } catch (e: Exception) {
-            DiscordPlugin.LOG.warnLazy(e) { "Error clearing presence, is the client running?" }
+        val exceptionHandler = CoroutineExceptionHandler { _, error ->
+            when (error) {
+                is ConnectionError -> {
+                    DiscordPlugin.LOG.warn("Error connecting to ipc", error)
+                }
+
+                is TimeoutCancellationException -> {
+                    DiscordPlugin.LOG.debugLazy { "Error clearing presence, timed out" }
+                }
+
+                else -> {
+                    DiscordPlugin.LOG.warnLazy(error) { "Error connecting to ipc" }
+                }
+            }
+        }
+
+        launch(exceptionHandler) {
+            withTimeoutOrNull(5000) {
+                if (running)
+                    ipcClient.activityManager.clearActivity()
+            }
         }
     }
 
