@@ -1,3 +1,13 @@
+## v2.1.3
+- Mark the plugin as incompatible with Almighty Alpaca's old version
+- Fix the presence not hiding or showing "idling" when idling
+- Fix exception "This socket has either been closed, or, was never connected"
+- Fix incompatibility wiht DataSpell v2024.2
+- Fix wrong templates.adoc link
+- Update all application IDs
+- Update the IntelliJ IDEA Community icon in the "2024 icons" theme
+- Update C# icon in the "classic" theme
+
 ## v2.1.2
 - Cancel some functionalities of the plugin if Almighty Alpaca's old version is detected as it raises exceptions
 - Add notifications when an issue that may/will prevent the plugin from working is detected
