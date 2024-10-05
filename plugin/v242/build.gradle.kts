@@ -97,7 +97,7 @@ intellijPlatform {
         }
     }
 
-    verifyPlugin {
+    pluginVerification {
         ides {
             recommended()
         }
@@ -108,7 +108,7 @@ intellijPlatform {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("21"))
+        languageVersion.set(JavaLanguageVersion.of("17"))
     }
 }
 
@@ -271,7 +271,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "21"
+            jvmTarget = "17"
             freeCompilerArgs += "-Xjvm-default=all"
         }
     }
