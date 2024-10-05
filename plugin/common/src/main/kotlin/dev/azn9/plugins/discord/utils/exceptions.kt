@@ -27,7 +27,7 @@ inline fun <T> tryOrDefault(default: T, print: Boolean = true, block: () -> T): 
         block()
     } catch (e: ProcessCanceledException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         // TODO: change to catch case once minimum IntelliJ version has been raised
         if (print && e::class.simpleName != "AlreadyDisposedException") {
             DiscordPlugin.LOG.error(e)
