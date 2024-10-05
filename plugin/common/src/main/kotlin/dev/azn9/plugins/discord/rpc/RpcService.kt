@@ -99,16 +99,13 @@ class RpcService : DisposableCoroutineScope {
 
                         if (connection != null) {
                             try {
-                                withTimeout(500) {
-                                    connection!!.clearActivity()
-                                }
+                                connection!!.clearActivity()
                             } catch (e: Exception) {
                                 DiscordPlugin.LOG.warnLazy(e) { "Error clearing activity" }
                             }
 
+                            connection!!.disconnect()
                             Disposer.dispose(connection!!)
-                            connection?.disconnect()
-
                             connection = null
                         }
 

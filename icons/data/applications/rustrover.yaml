@@ -1,6 +1,8 @@
 # Rust Rover
 ids:
   - RR
+  - RR_s
   - rustrover
+  - rustrover_s
 discordId: 1274044761568841830
 dummyFile: main.rs

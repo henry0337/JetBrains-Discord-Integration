@@ -1,7 +1,10 @@
 # DataSpell
 ids:
   - PD
+  - PD_s
   - DS
+  - DS_s
   - dataspell
+  - dataspell_s
 discordId: 1205650577057390663
 dummyFile: Dummy.ipynb

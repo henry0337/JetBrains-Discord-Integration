@@ -1,6 +1,8 @@
 # WebStorm
 ids:
   - WS
+  - WS_s
   - webstorm
+  - webstorm_s
 discordId: 1274044898504478811
 dummyFile: main.js

@@ -1,6 +1,8 @@
 # GoLand
 ids:
   - GO
+  - GO_s
   - goland
+  - goland_s
 discordId: 1205657082179624990
 dummyFile: main.go

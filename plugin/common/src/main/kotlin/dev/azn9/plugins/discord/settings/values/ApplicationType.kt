@@ -17,6 +17,7 @@
 
 package dev.azn9.plugins.discord.settings.values
 
+import com.intellij.openapi.application.ApplicationInfo
 import dev.azn9.plugins.discord.settings.options.types.SimpleValue
 import dev.azn9.plugins.discord.settings.options.types.UiValueType
 import com.intellij.openapi.application.ApplicationNamesInfo
@@ -26,12 +27,13 @@ typealias ApplicationTypeValue = SimpleValue<ApplicationType>
 enum class ApplicationType(override val text: String, override val description: String? = null) : UiValueType {
     JETBRAINS("JetBrains IDE") {
         override val applicationNameReadable = "JetBrains IDE"
+        override val applicationCode = "jetbrains_ide"
     },
     IDE("IDE Name", description = "e.g. IntelliJ IDEA") {
         override val applicationNameReadable: String by lazy {
-            ApplicationNamesInfo.getInstance()
-                .fullProductName
+            ApplicationNamesInfo.getInstance().fullProductName
         }
+        override val applicationCode = ApplicationInfo.getInstance().build.productCode + "_s"
     },
     IDE_EDITION("IDE Name and Edition", description = "e.g. IntelliJ IDEA Ultimate") {
         override val applicationNameReadable: String by lazy {
@@ -40,9 +42,11 @@ enum class ApplicationType(override val text: String, override val description: 
                 .replace("Edition", "")
                 .trim()
         }
+        override val applicationCode = ApplicationInfo.getInstance().build.productCode
     };
 
     abstract val applicationNameReadable: String
+    abstract val applicationCode: String
 
     val applicationName by lazy {
         applicationNameReadable.split(' ')

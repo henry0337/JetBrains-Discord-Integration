@@ -1,6 +1,8 @@
 # RubyMine
 ids:
   - RM
+  - RM_s
   - rubymine
+  - rubymine_s
 discordId: 1274044652500160573
 dummyFile: main.rb

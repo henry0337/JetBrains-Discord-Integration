@@ -1,9 +1,14 @@
 # Rider
 ids:
   - RD
+  - RD_s
   - RDCPPP
+  - RDCPPP_s
   - rider
+  - rider_s
   - jetbrains_rider
+  - jetbrains_rider_s
   - rider_for_unreal_engine
+  - rider_for_unreal_engine_s
 discordId: 1274044530114560121
 dummyFile: Main.cs

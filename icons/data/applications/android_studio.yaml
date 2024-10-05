@@ -1,6 +1,8 @@
 # Android Studio
 ids:
   - AI
+  - AI_s
   - android_studio
+  - android_studio_s
 discordId: 1205636323994509312
 dummyFile: MainActivity.java

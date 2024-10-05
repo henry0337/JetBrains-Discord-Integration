@@ -1,6 +1,8 @@
 # Aqua
 ids:
   - QA
+  - QA_s
   - aqua
+  - aqua_s
 discordId: 1205640902828228638
 dummyFile: Tests.java

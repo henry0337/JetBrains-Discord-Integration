@@ -1,6 +1,8 @@
 # MPS
 ids:
   - MPS
+  - MPS_s
   - jetbrains_mps
+  - jetbrains_mps_s
 discordId: 1274043639474946099
 dummyFile: main.mpl

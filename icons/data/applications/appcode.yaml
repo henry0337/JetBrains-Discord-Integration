@@ -1,6 +1,8 @@
 # AppCode
 ids:
   - OC
+  - OC_s
   - appcode
+  - appcode_s
 discordId: 1205637574773837854
 dummyFile: Main.swift

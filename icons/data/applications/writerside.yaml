@@ -1,6 +1,8 @@
 # Writerside
 ids:
   - WRS
+  - WRS_s
   - writerside
+  - writerside_s
 discordId: 1274045002514825268
 dummyFile: Tests.md

@@ -39,6 +39,7 @@ import dev.azn9.plugins.discord.DiscordPlugin
 import dev.azn9.plugins.discord.extensions.VcsInfoExtension
 import dev.azn9.plugins.discord.render.Renderer
 import dev.azn9.plugins.discord.settings.settings
+import dev.azn9.plugins.discord.settings.values.ApplicationType
 import dev.azn9.plugins.discord.settings.values.IdleVisibility.*
 import dev.azn9.plugins.discord.settings.values.ProjectShow
 import dev.azn9.plugins.discord.source.sourceService
@@ -72,8 +73,9 @@ class DataService {
 
         val application = ApplicationManager.getApplication()
         val applicationInfo = ApplicationInfoEx.getInstance()
-        val applicationCode = ApplicationInfo.getInstance().build.productCode
-        val applicationName = settings.applicationType.getValue().applicationNameReadable
+        val applicationType = settings.applicationType.getValue()
+        val applicationCode = applicationType.applicationCode
+        val applicationName = applicationType.applicationNameReadable
         val applicationVersion = applicationInfo.fullVersion
         val applicationTimeOpened = application.timeOpened
         val applicationTimeActive = application.timeActive

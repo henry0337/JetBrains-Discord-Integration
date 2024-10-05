@@ -1,6 +1,8 @@
 # DataGrip
 ids:
   - DB
+  - DB_s
   - datagrip
+  - datagrip_s
 discordId: 1205646288704638997
 dummyFile: main.sql

@@ -1,5 +1,6 @@
 # Jetbrains IDE
 ids:
   - jetbrains_ide
+  - jetbrains_ide_s
 discordId: 1205635135089811457
 dummyFile: Main.kt

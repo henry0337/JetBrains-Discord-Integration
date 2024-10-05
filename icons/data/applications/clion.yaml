@@ -1,6 +1,8 @@
 # Clion
 ids:
   - CL
+  - CL_s
   - clion
+  - clion_s
 discordId: 1205641987949334558
 dummyFile: main.c
