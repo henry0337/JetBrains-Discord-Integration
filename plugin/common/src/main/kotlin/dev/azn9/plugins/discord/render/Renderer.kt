@@ -18,6 +18,7 @@
 package dev.azn9.plugins.discord.render
 
 import dev.azn9.plugins.discord.DiscordPlugin
+import dev.azn9.plugins.discord.icons.source.web.WebAsset
 import dev.azn9.plugins.discord.render.templates.asCustomTemplateContext
 import dev.azn9.plugins.discord.rpc.RichPresence
 import dev.azn9.plugins.discord.settings.options.types.SimpleValue
@@ -39,9 +40,11 @@ abstract class Renderer(protected val context: RenderContext) {
         state: TextValue?,
         stateCustom: TemplateValue?,
         largeIcon: IconValue?,
+        largeIconCustom: TemplateValue?,
         largeIconText: TextValue?,
         largeIconTextCustom: TemplateValue?,
         smallIcon: IconValue?,
+        smallIconCustom: TemplateValue?,
         smallIconText: TextValue?,
         smallIconTextCustom: TemplateValue?,
         startTimestamp: TimeValue?,
@@ -82,27 +85,47 @@ abstract class Renderer(protected val context: RenderContext) {
                     )
             }
 
+            val largeImageCaption = when (val text = largeIconText?.getValue()?.get(context)) {
+                null, PresenceText.Result.Empty -> null
+                is PresenceText.Result.String -> text.value
+                PresenceText.Result.Custom -> largeIconTextCustom?.getValue()?.execute(customTemplateContext)
+            }
+
             this@presence.largeImage = when (val icon = largeIcon?.getValue()?.get(context)) {
                 null, PresenceIcon.Result.Empty -> null
-                is PresenceIcon.Result.Asset -> {
-                    val caption = when (val text = largeIconText?.getValue()?.get(context)) {
-                        null, PresenceText.Result.Empty -> null
-                        is PresenceText.Result.String -> text.value
-                        PresenceText.Result.Custom -> largeIconTextCustom?.getValue()?.execute(customTemplateContext)
+                PresenceIcon.Result.Custom -> {
+                    val assetUrl = largeIconCustom?.getStoredValue()?.execute(customTemplateContext)?.trim()
+
+                    if (assetUrl?.isEmpty() != false) {
+                        null
+                    } else {
+                        RichPresence.Image(WebAsset(assetUrl), largeImageCaption)
                     }
-                    RichPresence.Image(icon.value, caption)
                 }
+                is PresenceIcon.Result.Asset -> {
+                    RichPresence.Image(icon.value, largeImageCaption)
+                }
+            }
+
+            val smallImageCaption = when (val text = smallIconText?.getValue()?.get(context)) {
+                null, PresenceText.Result.Empty -> null
+                is PresenceText.Result.String -> text.value
+                PresenceText.Result.Custom -> smallIconTextCustom?.getValue()?.execute(customTemplateContext)
             }
 
             this@presence.smallImage = when (val icon = smallIcon?.getValue()?.get(context)) {
                 null, PresenceIcon.Result.Empty -> null
-                is PresenceIcon.Result.Asset -> {
-                    val caption = when (val text = smallIconText?.getValue()?.get(context)) {
-                        null, PresenceText.Result.Empty -> null
-                        is PresenceText.Result.String -> text.value
-                        PresenceText.Result.Custom -> smallIconTextCustom?.getValue()?.execute(customTemplateContext)
+                PresenceIcon.Result.Custom -> {
+                    val assetUrl = smallIconCustom?.getValue()?.execute(customTemplateContext)
+
+                    if (assetUrl == null) {
+                        null
+                    } else {
+                        RichPresence.Image(WebAsset(assetUrl), smallImageCaption)
                     }
-                    RichPresence.Image(icon.value, caption)
+                }
+                is PresenceIcon.Result.Asset -> {
+                    RichPresence.Image(icon.value, smallImageCaption)
                 }
             }
 

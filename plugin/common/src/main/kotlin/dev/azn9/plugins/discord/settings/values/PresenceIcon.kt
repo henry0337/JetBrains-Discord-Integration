@@ -25,6 +25,9 @@ import dev.azn9.plugins.discord.icons.source.Asset as SourceAsset
 typealias IconValue = SimpleValue<PresenceIcon>
 
 enum class PresenceIcon(override val text: String, override val description: String? = null) : RenderedValue<PresenceIcon.Result>, UiValueType {
+    CUSTOM("Custom") {
+        override fun RenderContext.getResult() = Result.Custom
+    },
     APPLICATION("Application") {
         override fun RenderContext.getResult() = applicationIcons?.getAsset("application").toResult()
     },
@@ -38,15 +41,17 @@ enum class PresenceIcon(override val text: String, override val description: Str
     };
 
     object Large {
-        val Application = APPLICATION to arrayOf(APPLICATION, NONE)
-        val Project = APPLICATION to arrayOf(APPLICATION, NONE)
-        val File = FILE to arrayOf(APPLICATION, FILE, NONE)
+        val Custom = CUSTOM to arrayOf(CUSTOM, APPLICATION, FILE, NONE)
+        val Application = APPLICATION to arrayOf(CUSTOM, APPLICATION, NONE)
+        val Project = APPLICATION to arrayOf(CUSTOM, APPLICATION, NONE)
+        val File = FILE to arrayOf(CUSTOM, APPLICATION, FILE, NONE)
     }
 
     object Small {
-        val Application = NONE to arrayOf(APPLICATION, NONE)
-        val Project = NONE to arrayOf(APPLICATION, NONE)
-        val File = APPLICATION to arrayOf(APPLICATION, FILE, NONE)
+        val Custom = CUSTOM to arrayOf(CUSTOM, APPLICATION, FILE, NONE)
+        val Application = NONE to arrayOf(CUSTOM, APPLICATION, NONE)
+        val Project = NONE to arrayOf(CUSTOM, APPLICATION, NONE)
+        val File = APPLICATION to arrayOf(CUSTOM, APPLICATION, FILE, NONE)
     }
 
     fun SourceAsset?.toResult() = when (this) {
@@ -56,6 +61,7 @@ enum class PresenceIcon(override val text: String, override val description: Str
 
     sealed class Result {
         object Empty : Result()
+        object Custom : Result()
         data class Asset(val value: SourceAsset) : Result()
     }
 }

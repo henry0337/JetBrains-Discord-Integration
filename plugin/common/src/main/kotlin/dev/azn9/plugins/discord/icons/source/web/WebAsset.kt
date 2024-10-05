@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 
-package dev.azn9.plugins.discord.icons.source.abstract
+package dev.azn9.plugins.discord.icons.source.web
 
-import dev.azn9.plugins.discord.icons.source.Asset
-import dev.azn9.plugins.discord.icons.source.Theme
+import dev.azn9.plugins.discord.DiscordPlugin
+import dev.azn9.plugins.discord.icons.source.abstract.AbstractAsset
+import dev.azn9.plugins.discord.utils.warnLazy
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
 
-abstract class AbstractAsset(override val id: String? = null, override val theme: Theme? = null) : Asset {
+class WebAsset(private val source: String) : AbstractAsset() {
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Asset) return false
-
-        if (id != other.id) return false
-
-        return true
+    override fun getImage(size: Int?): BufferedImage? = try {
+        ImageIO.read(java.net.URL(getUrl()))
+    } catch (e: Exception) {
+        DiscordPlugin.LOG.warnLazy(e) { "Failed to load image from URL: $source" }
+        null
     }
 
-    override fun hashCode(): Int {
-        return id.hashCode()
+    override fun getUrl(): String {
+        return source
     }
 }
