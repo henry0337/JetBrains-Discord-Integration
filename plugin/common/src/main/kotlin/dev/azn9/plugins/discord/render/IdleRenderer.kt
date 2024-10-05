@@ -17,6 +17,7 @@
 
 package dev.azn9.plugins.discord.render
 
+import dev.azn9.plugins.discord.icons.source.web.WebAsset
 import dev.azn9.plugins.discord.render.templates.asCustomTemplateContext
 import dev.azn9.plugins.discord.rpc.RichPresence
 import dev.azn9.plugins.discord.settings.settings
@@ -51,6 +52,21 @@ class IdleRenderer(context: RenderContext) : Renderer(context) {
                         PresenceText.Result.Custom -> settings.applicationIconLargeTextCustom.getValue().execute(customTemplateContext)
                     }
                     RichPresence.Image(icon.value, caption)
+                }
+                PresenceIcon.Result.Custom -> {
+                    val assetUrl = settings.projectIconLargeCustom.getStoredValue().execute(customTemplateContext).trim()
+
+                    val largeImageCaption = when (val text = settings.projectIconLargeText.getValue().get(context)) {
+                        PresenceText.Result.Empty -> null
+                        is PresenceText.Result.String -> text.value
+                        PresenceText.Result.Custom -> settings.projectIconLargeTextCustom.getValue().execute(customTemplateContext)
+                    }
+
+                    if (assetUrl.isEmpty()) {
+                        null
+                    } else {
+                        RichPresence.Image(WebAsset(assetUrl), largeImageCaption)
+                    }
                 }
             }
 
