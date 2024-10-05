@@ -75,6 +75,8 @@ class DiscordIpcConnection(override val appId: Long, private val userCallback: U
         try {
             if (running)
                 ipcClient.activityManager.setActivity(presence?.toNative())
+        } catch (e: ConnectionError) {
+            // Ignore
         } catch (e: TimeoutCancellationException) {
             DiscordPlugin.LOG.debugLazy { "Error sending presence, timed out" }
         } catch (e: Exception) {
