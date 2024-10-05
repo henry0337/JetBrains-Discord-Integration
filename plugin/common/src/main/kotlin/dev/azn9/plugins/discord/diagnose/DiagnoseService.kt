@@ -103,10 +103,14 @@ class DiagnoseService : DisposableCoroutineScope {
         )
 
         val discord = arrayOf(
+            // Official clients
             "Discord.exe",
             "DiscordPTB.exe",
             "DiscordCanary.exe",
-            "DiscordDevelopment.exe"
+            "DiscordDevelopment.exe",
+
+            // Custom clients
+            "Vesktop.exe"
         )
 
         val ipcFile = (0..9).map { "discord-ipc-$it" }
@@ -138,25 +142,23 @@ class DiagnoseService : DisposableCoroutineScope {
         }
 
         val process = Runtime.getRuntime().exec("""tasklist /V /fi "SESSIONNAME eq Console"""")
-        val lines = process.inputStream.bufferedReader(StandardCharsets.UTF_8).use { reader ->
-            reader.lineSequence().filter { line -> line.contains("Discord", true) }.toList()
+        val allLines = process.inputStream.bufferedReader(StandardCharsets.UTF_8).use { reader ->
+            reader.lineSequence().toList()
         }
 
-        if (lines.isEmpty()) {
-            return Discord.CLOSED
-        } else {
-            val discordClientNotRunning = lines.none { line -> discord.any { exe -> line.startsWith(exe, true) } }
-            if (discordClientNotRunning) {
-                val discordBrowser = lines.any { line ->
-                    line.contains("discord", true) && browsers.any { browser -> line.startsWith(browser, true) }
-                }
-                if (discordBrowser) {
-                    return Discord.BROWSER
-                }
+        val discordClientNotRunning = allLines.none { line -> discord.any { exe -> line.startsWith(exe, true) } }
+        if (discordClientNotRunning) {
+            val discordBrowser = allLines.any { line ->
+                browsers.any { browser -> line.startsWith(browser, true) }
             }
+            if (discordBrowser) {
+                return Discord.BROWSER
+            }
+        } else {
+            return Discord.RUNNING_WITHOUT_RICH_PRESENCE_ENABLED
         }
 
-        return Discord.RUNNING_WITHOUT_RICH_PRESENCE_ENABLED
+        return Discord.CLOSED
     }
 
     private fun readPlugins(): Plugins {
