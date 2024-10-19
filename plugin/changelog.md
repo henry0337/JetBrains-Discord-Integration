@@ -1,3 +1,12 @@
+## v2.1.4
+- Lower the java version on 242 plugin versions as some IDE still use java 17
+- Add detection for custom discord client such as Vesktop
+- Add a custom field for large and small icons, allowing to set custom icon URLs
+- Fix an issue causing the application name to not change while changing the setting
+- Fix an issue causing the plugin to not work on remote development/JetBrains Client
+- Fix some connection issues
+- Add solidity icons
+
 ## v2.1.3
 - Mark the plugin as incompatible with Almighty Alpaca's old version
 - Fix the presence not hiding or showing "idling" when idling
