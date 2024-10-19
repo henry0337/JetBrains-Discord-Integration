@@ -74,7 +74,7 @@ class DataService {
         val application = ApplicationManager.getApplication()
         val applicationInfo = ApplicationInfoEx.getInstance()
         val applicationType = settings.applicationType.getValue()
-        val applicationCode = applicationType.applicationCode
+        var applicationCode = applicationType.applicationCode
         val applicationName = applicationType.applicationNameReadable
         val applicationVersion = applicationInfo.fullVersion
         val applicationTimeOpened = application.timeOpened
@@ -105,6 +105,11 @@ class DataService {
                 DiscordPlugin.LOG.warn("No applications data found!")
                 return Data.None
             }
+
+            if (applicationCode == "JBC") {
+                applicationCode = ApplicationType.IDE_EDITION.applicationName
+            }
+
             val currentApplicationData = applicationsData[applicationCode] ?: let {
                 DiscordPlugin.LOG.warn("No data found for application code $applicationCode!")
                 return Data.None
