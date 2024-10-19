@@ -17,30 +17,38 @@
 
 package dev.azn9.plugins.discord.settings.gui.themes
 
-import dev.azn9.plugins.discord.icons.source.Theme
 import com.intellij.openapi.ui.DialogWrapper
+import dev.azn9.plugins.discord.icons.source.Theme
+import dev.azn9.plugins.discord.settings.options.types.CustomThemeOption
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import java.awt.Component
-import javax.swing.JComboBox
-import javax.swing.JComponent
-import javax.swing.JList
-import javax.swing.JPanel
+import javax.swing.*
 import javax.swing.plaf.basic.BasicComboBoxRenderer
 import kotlin.coroutines.CoroutineContext
 
-class ThemeDialog(private val themes: Map<String, Theme>, private val initialValue: String?, private val showDefault: Boolean = false) : DialogWrapper(null, true, IdeModalityType.IDE), CoroutineScope {
+class ThemeDialog(private val themes: Map<String, Theme>, private val initialValue: String?, private val showDefault: Boolean = false) : DialogWrapper(null, true, IdeModalityType.IDE),
+    CoroutineScope {
     private val parentJob: Job = SupervisorJob()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Default + parentJob
 
-    private lateinit var field: JComboBox<Theme>
+    private lateinit var tabs: JTabbedPane
+    private lateinit var classicThemesField: JComboBox<Theme>
+    private lateinit var customThemeField: CustomThemeOption
 
-    val value
-        get() = (field.selectedItem as Theme).id
+    val value: String
+        get() = if (tabs.selectedIndex == 1) {
+            val value = customThemeField.componentValue.template
+            value.ifEmpty {
+                Theme.Default.id
+            }
+        } else {
+            (classicThemesField.selectedItem as Theme).id
+        }
 
     /*
      * TODO
@@ -56,38 +64,44 @@ class ThemeDialog(private val themes: Map<String, Theme>, private val initialVal
     }
 
     override fun createCenterPanel(): JComponent = JPanel().apply panel@{
-        // val tabs = JTabbedPane().apply {
-        //     for (themeChooser in themes.values) {
-        //         val tab = JPanel().apply tab@{
-        //
-        //         }
-        //         addTab(themeChooser.name, tab)
-        //     }
-        // }
-        //
-        // add(tabs)
+        tabs = JTabbedPane().apply {
+            val isCustom = initialValue?.startsWith("http") ?: false
 
-        val renderer = object : BasicComboBoxRenderer() {
-            override fun getListCellRendererComponent(list: JList<*>?, value: Any?, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+            val classicTab = JPanel().apply tab@{
+                val renderer = object : BasicComboBoxRenderer() {
+                    override fun getListCellRendererComponent(list: JList<*>?, value: Any?, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
+                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
 
-                val theme = value as Theme
-                text = "<html><b>${theme.name}</b><br>${theme.description}</html>"
+                        val theme = value as Theme
+                        text = "<html><b>${theme.name}</b><br>${theme.description}</html>"
 
-                return this
+                        return this
+                    }
+                }
+
+                var themeValues = themes.values.toTypedArray()
+                if (showDefault) {
+                    themeValues += Theme.Default
+                }
+
+                classicThemesField = JComboBox(themeValues).apply box@{
+                    this@box.renderer = renderer
+                    selectedItem = themes[initialValue] ?: (if (showDefault) Theme.Default else themes.values.first())
+                }
+
+                add(classicThemesField)
             }
+            addTab("Classic themes", classicTab)
+
+            val customTab = JPanel().apply tab@{
+                customThemeField = CustomThemeOption("Custom theme", "", initialValue ?: "")
+                add(customThemeField.component)
+            }
+            addTab("Custom theme", customTab)
+
+            selectedIndex = if (isCustom) 1 else 0;
         }
 
-        var themeValues = themes.values.toTypedArray()
-        if (showDefault) {
-            themeValues += Theme.Default
-        }
-
-        field = JComboBox(themeValues).apply box@{
-            this@box.renderer = renderer
-            selectedItem = themes[initialValue] ?: (if (showDefault) Theme.Default else themes.values.first())
-        }
-
-        add(field)
+        add(tabs)
     }
 }

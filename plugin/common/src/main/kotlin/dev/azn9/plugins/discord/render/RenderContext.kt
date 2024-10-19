@@ -31,6 +31,13 @@ class RenderContext(val source: Source, val data: Data, val mode: Renderer.Mode)
             themeValue = settings.applicationTheme
         }
 
+        if (themeValue.getValue()?.startsWith("http") == true) {
+            return@lazy IconSet {
+
+            }
+            // TODO: load theme from url
+        }
+
         source.getThemesOrNull()
             ?.get(themeValue.getValue())
             ?.getIconSet(settings.applicationType.getValue().applicationName)
@@ -40,6 +47,10 @@ class RenderContext(val source: Source, val data: Data, val mode: Renderer.Mode)
         var themeValue = projectData?.projectSettings?.iconsTheme ?: settings.iconsTheme
         if (themeValue.getValue() == "default") {
             themeValue = settings.iconsTheme
+        }
+
+        if (themeValue.getValue()?.startsWith("http") == true) {
+            // TODO: load theme from url
         }
 
         source.getThemesOrNull()
