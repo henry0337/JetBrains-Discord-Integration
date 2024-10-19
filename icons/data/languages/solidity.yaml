@@ -1,0 +1,6 @@
+name: Solidity
+asset: solidity
+parent: text
+match:
+  extension:
+    equals: .sol
