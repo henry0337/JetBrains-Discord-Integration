@@ -149,7 +149,7 @@ class DiagnoseService : DisposableCoroutineScope {
         val discordClientNotRunning = allLines.none { line -> discord.any { exe -> line.startsWith(exe, true) } }
         if (discordClientNotRunning) {
             val discordBrowser = allLines.any { line ->
-                browsers.any { browser -> line.startsWith(browser, true) }
+                browsers.any { browser -> line.startsWith(browser, true) }  // TODO: this line is missing contains("discord")
             }
             if (discordBrowser) {
                 return Discord.BROWSER
